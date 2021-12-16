@@ -1,0 +1,23 @@
+{
+  "name": "tristandavid_7_15122021",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Grimmjowjag/TRISTANDAVID_7_15122021.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Grimmjowjag/TRISTANDAVID_7_15122021/issues"
+  },
+  "homepage": "https://github.com/Grimmjowjag/TRISTANDAVID_7_15122021#readme",
+  "dependencies": {
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.12.0-beta.3"
+  }
+}
