@@ -12,8 +12,6 @@ const userSchema = mongoose.Schema({
   imageUrl: { type: String, required: true },
   likes: {type: Number, default: 0},
   dislikes: {type: Number, default: 0},
-  usersLiked: {type: Array, default: []},
-  usersDisliked: {type: Array, default: []}
 })
 
 // On exporte le modèle correspondant

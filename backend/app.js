@@ -1,13 +1,14 @@
+"use strict"
+require('dotenv').config()
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const mongoSanitize = require('express-mongo-sanitize')
 const helmet = require("helmet")
-const mongoose = require('mongoose')
 const path = require('path')
-require('dotenv').config()
 
 const postRoutes = require('./routes/post')
-const profileRoutes = require('./routes/profile')
+// const commentRoutes = require('./routes/comment')
 const userRoutes = require('./routes/user')
 const app = express()
 
@@ -33,21 +34,14 @@ const limiter = rateLimit({
 // Appliqué à toutes les requêtes
 app.use(limiter)
 
-// Logique pour se connecter à MongoDB
-const mongooseConnect= `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.tb4tx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
-mongoose.connect(mongooseConnect,
-  { useNewUrlParser: true,
-    useUnifiedTopology: true })
-  .then(() => console.log('Connexion à MongoDB réussie !'))
-  .catch(() => console.log('Connexion à MongoDB échouée !'))
-
 app.use(bodyParser.json()) // bodyParser transforme le corps de la requête en JSON utilisable
 
 app.use('/images', express.static(path.join(__dirname, 'images')))
 
 app.use('/api/postCtrl', postRoutes)
-app.use('/api/profileCtrl', profileRoutes)
+// app.use('/api/commentCtrl', commentRoutes)
 app.use('/api/auth', userRoutes)
+
 app.use(helmet())
 app.use(
   mongoSanitize({

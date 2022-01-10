@@ -1,6 +1,6 @@
 "use strict"
 
-const Post = require('../models/userModel')
+const Post = require('../models/postModel')
 const fs = require('fs')
 
 // ---- Début CRUD  ----
@@ -76,23 +76,8 @@ exports.createPost = (req, res, next) => {
         Post.updateOne({_id: req.params.id}, {$inc: {dislikes: 1}, $push: {usersDisliked: userId}} )
             .then(() => res.status(200).json({message: "Vous n'aimez pas ce post !"}))
             .catch(error => res.status(400).json({ error }))
-    } else if (like === 0) {
-        Post.findOne({_id: req.params.id})
-            .then((post) => {
-                if (post.usersLiked.includes(userId)) {
-                    // $pull permet de supprimer un élément
-                    Post.updateOne({_id: req.params.id}, {$inc: {likes: -1}, $pull: {usersLiked: userId}})
-                     .then(() => res.status(200).json({message: "Vous n'aimez plus ce post !"}))
-                     .catch(error => res.status(500).json({ error }))
-                } if (post.usersDisliked.includes(userId)) {
-                    Post.updateOne({_id: req.params.id}, {$inc: {dislikes: -1}, $pull: {usersDisliked: userId}})
-                     .then(() => res.status(200).json({message: "Vous aimez de nouveau ce post !"}))
-                     .catch(error => res.status(500).json({ error }))
-                }
-            })
-            .catch(error => res.status(500).json({ error }))
-        }else {
-          // Si le likescore n'est pas égal à 1/-1/0, l'app refuse la req
+    } else {
+          // Si le likescore n'est pas égal à 1/-1, l'app refuse la req
           return 'Erreur dans la gestion des likes'
         }
   }
