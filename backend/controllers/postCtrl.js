@@ -20,7 +20,7 @@ exports.createPost = (req, res, next) => {
   
   // Récupération de l'id de l'objet grâce à "findOne()" pour trouver le "Post" ayant le même "_id" que le paramètre de la requête
   exports.getOnePost = (req, res, next) => {
-    Post.findOne({_id: req.params.id})
+    Post.findOne({_id: req.params.id}) // < !! ---- switch finOne et updateOne---- !! >
     .then((post) => {res.status(200).json(post)})
     .catch((error) => {res.status(404).json({error: error})})
   }

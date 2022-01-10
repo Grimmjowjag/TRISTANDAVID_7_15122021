@@ -25,12 +25,14 @@ exports.signup = (req, res, next) => {
 // Connection des utilisateurs existants
 exports.login = (req, res, next) => {
     // On essaie de trouver un seul utilisateur de la base de donnée
-    User.findOne({ email: req.body.email })
+    User.findOne({ where: { username: req.body.username } })
       .then(user => {
         if (!user) {
           return res.status(401).json({ error: 'Utilisateur non trouvé !' })
         }
         // On compare le mot de passe envoyé avec la requête du "hash" enregistré dans notre doc user
+        console.log(user.password)
+        console.log(req.body.password)
         bcrypt.compare(req.body.password, user.password)
         // On vérifie si la comparaison est valable ou non -> bon/mauvais mdp
           .then(valid => {

@@ -1,6 +1,4 @@
 "use strict"
-
-// Package qui va vérifier les tokens d'authentification
 const jwt = require('jsonwebtoken')
 
 module.exports = (req, res, next) => {
