@@ -45,7 +45,7 @@ module.exports = User
 // User.sync().then(() => {
 //     console.log('Model synced succesfully!')
     
-//     bcrypt.hash('noobolife75z$', 10)
+//     bcrypt.hash('Noobolife75z$', 10)
 //     .then(hash => {
 //       console.log(hash)
 //       let password = null

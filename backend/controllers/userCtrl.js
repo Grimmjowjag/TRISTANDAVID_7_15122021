@@ -10,7 +10,7 @@ exports.signup = (req, res, next) => {
       .then(hash => {
         // Création du nouvel utilisateur avec un email et un mot de passe crypté
         const user = new User({
-          email: req.body.email,
+          username: req.body.username,
           password: hash
         })
         // On enregistre notre utilisateur
@@ -54,3 +54,5 @@ exports.login = (req, res, next) => {
       })
       .catch(error => res.status(500).json({ error }))
   }
+
+// Faire un CRUD pour que le user puisse créer un profil
