@@ -3,10 +3,8 @@
 const Post = require('../models/postModel')
 const fs = require('fs')
 
-// ---- Début CRUD  ----
-
 exports.createPost = (req, res, next) => {
-    const postObject = JSON.parse(req.body.sauce)
+    const postObject = JSON.parse(req.body.post)
     delete postObject._id
     const post = new Post({
       // On récupère l'objet via le spread et on remplace l'image url en écrasant l'ancien fichier
@@ -81,5 +79,3 @@ exports.createPost = (req, res, next) => {
           return 'Erreur dans la gestion des likes'
         }
   }
-
-// ---- FIN CRUD (Create, Read, Update, Delete) ----

@@ -34,12 +34,12 @@ const limiter = rateLimit({
 // Appliqué à toutes les requêtes
 app.use(limiter)
 
-app.use(bodyParser.json()) // bodyParser transforme le corps de la requête en JSON utilisable
+app.use(express.json()) // bodyParser transforme le corps de la requête en JSON utilisable
 
 app.use('/images', express.static(path.join(__dirname, 'images')))
 
-app.use('/api/postCtrl', postRoutes)
-// app.use('/api/commentCtrl', commentRoutes)
+app.use('/api/post', postRoutes)
+// app.use('/api/comment', commentRoutes)
 app.use('/api/auth', userRoutes)
 
 app.use(helmet())
