@@ -10,12 +10,11 @@ exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
       .then(hash => {
         // Création du nouvel utilisateur avec un email et un mot de passe crypté
-        const user = new User({
+        User.create({
+          email: req.body.email,
           username: req.body.username,
           password: hash
         })
-        // On enregistre notre utilisateur
-        user.save()
         // et on renvoie un message pour confirmer l'enregistrement de notre user
           .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
           .catch(error => res.status(400).json({ error }))

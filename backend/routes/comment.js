@@ -1,12 +1,11 @@
-// const express = require('express')
-// const router = express.Router()
+const express = require('express')
+const router = express.Router()
 
-// const commentCtrl = require('../controllers/commentCtrl')
-// const auth = require('../middleware/auth')
-// const multer = require('../middleware/multer-config')
+const commentCtrl = require('../controllers/commentCtrl')
+const auth = require('../middleware/auth')
 
-// router.post('/', auth, commentCtrl.createComment)
-// router.get('/posts/:id', auth, commentCtrl.getComments)
-// router.delete('/:id', auth, commentCtrl.deleteComment)
+router.post('/', auth, commentCtrl.createComment)
+router.get('/posts/:id', auth, commentCtrl.getComments)
+router.delete('/:id', auth, commentCtrl.deleteComment)
 
-// module.exports = router
+module.exports = router

@@ -9,8 +9,8 @@ const multer = require('../middleware/multer-config')
 router.get('/', auth, postCtrl.getAllPosts)
 router.post('/', auth, multer, postCtrl.createPost)
 router.get('/:postId', auth, postCtrl.getOnePost)
-router.put('/:postId', auth, multer, postCtrl.modifyPost)
-router.delete('/:postId', auth, postCtrl.deletePost)
-router.post('/:postId/like', auth, postCtrl.likePost)
+// router.put('/:postId', auth, multer, postCtrl.modifyPost)
+// router.delete('/:postId', auth, postCtrl.deletePost)
+// router.post('/:postId/like', auth, postCtrl.likePost)
 
 module.exports = router

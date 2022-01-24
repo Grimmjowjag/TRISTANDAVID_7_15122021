@@ -2,23 +2,24 @@
 
 const Post = require('../models/postModel')
 const fs = require('fs')
+const { title } = require('process')
 
 exports.createPost = (req, res, next) => {
-    const postObject = JSON.parse(req.body.post)
-    delete postObject._id
-    const post = new Post({
-      // On récupère l'objet via le spread et on remplace l'image url en écrasant l'ancien fichier
-      ...postObject,
-      imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-    })
-    post.save()
+  console.log("Tentative de création de post")
+    Post.create({
+      title: req.body.title,
+      user_id: req.body.user_id,
+      imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+      likes: 0,
+      dislikes: 0
+     })
       .then(() => res.status(201).json({ message: 'Post créé !'}))
       .catch(error => res.status(400).json({ error }))
   }
   
-  // Récupération de l'id de l'objet grâce à "findOne()" pour trouver le "Post" ayant le même "_id" que le paramètre de la requête
+  // Récupération de l'id de l'objet grâce à "find()" pour trouver le "Post" ayant le même "_id" que le paramètre de la requête
   exports.getOnePost = (req, res, next) => {
-    Post.findOne({_id: req.params.id}) // < !! ---- switch finOne et updateOne---- !! >
+    Post.find({ where: { _id: req.params.id } }) // < !! ---- switch updateOne---- !! >
     .then((post) => {res.status(200).json(post)})
     .catch((error) => {res.status(404).json({error: error})})
   }
@@ -54,7 +55,7 @@ exports.createPost = (req, res, next) => {
   }
   
   exports.getAllPosts = (req, res, next) => {
-    Post.find()
+    Post.findAll({ where: { post: req.body.post } })
     .then((post) => {res.status(200).json(post)})
     .catch((error) => {res.status(400).json({error: error})})
   }

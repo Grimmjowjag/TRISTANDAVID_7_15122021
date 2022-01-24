@@ -1,18 +1,33 @@
-// "use strict"
-
-// const mongoose = require('mongoose')
+const sequelize = require("./DBconnect")
+const { DataTypes } = require("sequelize")
 
 // Création du schéma de données avec les champs requis (ceci va simplifier les opérations de lecture et d'écriture dans la base de données)
-// const userSchema = mongoose.Schema({
-//   userId: { type: String, required: true },
-//   username: { type: String, required: true },
-//   enterprise_year: { type: String, required: true },
-//   description: { type: String, required: true },
-//   age: { type: String, required: true },
-//   imageUrl: { type: String, required: true },
-//   likes: {type: Number, default: 0},
-//   dislikes: {type: Number, default: 0},
-// })
+  const postModel = sequelize.define("post", {
 
-// On exporte le modèle correspondant
-// module.exports = mongoose.model('User', userSchema)
+    user_id: { 
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    likes: {
+      type:DataTypes.INTEGER,
+      allowNull: false
+    },
+    dislikes: {
+      type:DataTypes.INTEGER,
+      allowNull: false
+    },
+  },
+    {
+      tableName: "posts",
+    }
+  )
+
+  module.exports = postModel

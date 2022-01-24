@@ -1,19 +1,19 @@
 const Sequelize = require('sequelize')
+const sequelize = require("./DBconnect")
 const { DataTypes } = Sequelize // Clé qui nous permet d'accéder directement à DataTypes
-const bcrypt = require('bcrypt')
-
-const sequelize = new Sequelize('sequelize-p7', 'root', 'noobolife75z$', {
-    dialect: 'mysql',
-})
+// const bcrypt = require('bcrypt')
 
 const User = sequelize.define('user', {
-
-    user_id: {
+    id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    // ajouter username par email (voir Datatypes mail)
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+    },
     username: {
         type: DataTypes.STRING,
         allowNull: false, // allowNull oblige l'user à utiliser un nom compris entre 4 et 10 caractères
