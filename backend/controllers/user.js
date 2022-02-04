@@ -9,7 +9,7 @@ exports.signup = (req, res, next) => {
     console.log(req.body.password)
     bcrypt.hash(req.body.password, 10)
       .then(hash => {
-        // Création du nouvel utilisateur avec un email et un mot de passe crypté
+        // Création du nouvel utilisateur avec un email, un username et un mot de passe crypté
         User.create({
           email: req.body.email,
           username: req.body.username,
@@ -49,10 +49,7 @@ exports.login = (req, res, next) => {
               )
             })
           })
-          // Erreur possible avec MongoDB -> erreur serveur 500
           .catch(error => res.status(500).json({ error }))
       })
       .catch(error => res.status(500).json({ error }))
   }
-
-// Faire un CRUD pour que le user puisse créer un profil

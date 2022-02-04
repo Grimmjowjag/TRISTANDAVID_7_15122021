@@ -6,11 +6,12 @@ const sequelize = new Sequelize( "sequelize-p7", "root", "noobolife75z$", {
     dialect:"mysql"
 })
 
+// authenticate va vérifier si la connection à la DB est ok, puis sync va synchroniser les modèles, sinon, le catch renvoie une erreur
 sequelize.authenticate()
     .then(() => {
         console.log("Database connectée!")
         // { force: true }
-        sequelize.sync()
+        sequelize.sync({alter: true})
             .then( sync => {
                 console.log("Modèles synchronisés!")
             })

@@ -2,13 +2,11 @@
 require('dotenv').config()
 
 const express = require('express')
-const bodyParser = require('body-parser')
-const mongoSanitize = require('express-mongo-sanitize')
 const helmet = require("helmet")
 const path = require('path')
 
 const postRoutes = require('./routes/post')
-// const commentRoutes = require('./routes/comment')
+const commentRoutes = require('./routes/comment')
 const userRoutes = require('./routes/user')
 const app = express()
 
@@ -34,20 +32,14 @@ const limiter = rateLimit({
 // Appliqué à toutes les requêtes
 app.use(limiter)
 
-app.use(express.json()) // bodyParser transforme le corps de la requête en JSON utilisable
+app.use(express.json())
 
 app.use('/images', express.static(path.join(__dirname, 'images')))
 
 app.use('/api/post', postRoutes)
-// app.use('/api/comment', commentRoutes)
+app.use('/api/comment', commentRoutes)
 app.use('/api/auth', userRoutes)
 
 app.use(helmet())
-app.use(
-  mongoSanitize({
-    onSanitize: ({ req, key }) => {
-      console.warn(`This request[${key}] is sanitized`, req);},
-    }),
-)
 
 module.exports = app

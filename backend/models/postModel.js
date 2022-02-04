@@ -1,14 +1,23 @@
 const sequelize = require("./DBconnect")
 const { DataTypes } = require("sequelize")
 
-// Création du schéma de données avec les champs requis (ceci va simplifier les opérations de lecture et d'écriture dans la base de données)
+// Création du schéma de données sequelize avec les champs requis (ceci va simplifier les opérations de lecture et d'écriture dans la base de données)
   const postModel = sequelize.define("post", {
 
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
     user_id: { 
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    username: {
+    imageUrl: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    description: {
       type: DataTypes.STRING,
       allowNull: false
     },

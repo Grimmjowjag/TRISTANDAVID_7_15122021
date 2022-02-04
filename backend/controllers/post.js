@@ -8,13 +8,14 @@ exports.createPost = (req, res, next) => {
   console.log("Tentative de création de post")
     Post.create({
       title: req.body.title,
+      description: req.body.description,
       user_id: req.body.user_id,
       imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
       likes: 0,
       dislikes: 0
      })
       .then(() => res.status(201).json({ message: 'Post créé !'}))
-      .catch(error => res.status(400).json({ error }))
+      .catch((error) => {res.status(404).json({error: error})})
   }
   
   // Récupération de l'id de l'objet grâce à "find()" pour trouver le "Post" ayant le même "_id" que le paramètre de la requête
