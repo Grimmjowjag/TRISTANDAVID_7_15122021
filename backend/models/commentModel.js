@@ -10,22 +10,28 @@ const commentModel = sequelize.define("comment", {
     },
     user_id: { 
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+        references:{
+          model:'user',
+          key:'id'
+        }
     },
     // postId: {
     //     type: DataTypes.INTEGER,
     //     allowNull: false,
+    //     references:{
+    //       mode:'post',
+    //       key:'id'
+    //     }
     // },
     description: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    title: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
   },
     {
+      sequelize,
+      freezeTableName: true,
       tableName: "comments",
     }
   )

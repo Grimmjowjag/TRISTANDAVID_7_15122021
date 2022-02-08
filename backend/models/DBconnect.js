@@ -11,6 +11,7 @@ sequelize.authenticate()
     .then(() => {
         console.log("Database connectée!")
         // { force: true }
+        // {alter: true}
         sequelize.sync({alter: true})
             .then( sync => {
                 console.log("Modèles synchronisés!")
