@@ -4,7 +4,6 @@
 
 const Post = require('../models/postModel')
 const fs = require('fs')
-const { title } = require('process')
 
 exports.createPost = (req, res, next) => {
   console.log(req.body)
@@ -22,7 +21,7 @@ exports.createPost = (req, res, next) => {
   
   // Récupération de l'id de l'objet grâce à "find()" pour trouver le "Post" ayant le même "_id" que le paramètre de la requête
   exports.getOnePost = (req, res, next) => {
-    Post.find({ where: { _id: req.params.id } })
+    Post.findOne({ where: { id: req.params.postId } })
     .then((post) => {res.status(200).json(post)})
     .catch((error) => {res.status(404).json({error: error})})
   }
@@ -37,23 +36,23 @@ exports.createPost = (req, res, next) => {
       } 
       : { ...req.body } // si false -> req.body
   
-    Post.updateOne({ where: { _id: req.params.id } }, { ...postObject, where: {_id: req.params.id } }) // updateOne récupère l'id dans la base de données
+    Post.updateOne({ where: { id: req.params.postId } }, { ...postObject, id: req.params.postId }) // updateOne récupère l'id dans la base de données
       .then(() => res.status(200).json({ message: 'Post modifié !'}))
       .catch(error => res.status(400).json({ error }))
   }
    
   exports.deletePost = (req, res, next) => {
-    Post.findOne({ where: { _id: req.params.id } })
+    Post.findOne({ where: { id: req.params.postId } })
       .then(post => {
         // On extrait le nom du fichier à supprimer
         const filename = post.imageUrl.split('/images/')[1]
         fs.unlink(`images/${filename}`, () => {
-          Post.destroy({ where: { _id: req.params.id } })
+          Post.destroy({ where: { id: req.params.postId } })
             .then(() => res.status(200).json({ message: 'Post supprimé !'}))
             .catch(error => res.status(400).json({ error }))
         })
       })
-      .catch(error => res.status(500).json({ error }))
+      .catch(error => res.status(500).json({ error: JSON.stringify(error) }))
   }
   
   exports.getAllPosts = (req, res, next) => {

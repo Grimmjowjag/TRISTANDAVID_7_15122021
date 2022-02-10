@@ -12,18 +12,34 @@ const User = sequelize.define('user', {
     email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: 'email'
+        unique: 'email',
+        validate: { 
+            notNull:{msg: 'Vous devez entrer un email' },
+            notEmpty:{msg: 'Votre email ne doit pas être vide' }
+        }
     },
     username: {
         type: DataTypes.STRING,
-        allowNull: false, // allowNull oblige l'user à utiliser un nom compris entre 4 et 10 caractères
-        validate: {
+        allowNull: false,
+        // validate oblige l'user à utiliser un nom compris entre 4 et 10 caractères, entrer un nom et ne pas entrer un nom vide
+        validate: { 
+            notNull:{msg: 'Vous devez entrer un nom' },
+            notEmpty:{msg: 'Votre nom ne doit pas être vide' },
             len: [4,10]
         }
     },
     password: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: { 
+            notNull:{msg: 'Vous devez entrer un mot de passe' },
+            notEmpty:{msg: 'Votre mot de passe ne doit pas être vide' }
+        }
     },
+    // role: {
+    //     type: DataTypes.STRING,
+    //     allowNull: false
+    // },
     age: {
         type: DataTypes.INTEGER
     },
@@ -42,42 +58,4 @@ const User = sequelize.define('user', {
 
 module.exports = User
 
-// User.sync().then(() => {
-//     console.log('Model synced succesfully!')
-    
-//     bcrypt.hash('Noobolife75z$', 10)
-//     .then(hash => {
-//       console.log(hash)
-//       let password = null
-//       password = hash
-
-//       return User.bulkCreate([
-//         {
-//             username: 'Tristan',
-//             password: password,
-//             age: 25,
-//             Tristan: false
-//         },
-//         {
-//             username:'Adrien',
-//             password: password,
-//             age: 30,
-//             enterprise_year: 8
-//         },
-//         {
-//             username:'Julie',
-//             password: password,
-//             age: 34,
-//             enterprise_year: 6
-//         },
-//           ], {validate: true })
-//             }).then((data) => {
-//                 data.forEach((element) =>{
-//                     console.log(element.toJSON())
-//                 })
-//             })
-//             .catch((err) => {
-//                 console.log(err)
-//             })
-// })
 

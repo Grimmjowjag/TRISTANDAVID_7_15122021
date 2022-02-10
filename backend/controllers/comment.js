@@ -5,7 +5,6 @@ exports.createComment = (req, res, next) => {
       description: req.body.description,
       user_id: req.body.user_id,
       postId: req.body.postId,
-      //   description_id: req.body.description_id,
     })
     .then(() => res.status(201).json({ message: 'Commentaire créé !'}))
     .catch(error => res.status(400).json({ error }))
@@ -18,9 +17,9 @@ exports.getAllComments = (req, res, next) => {
 }
 
 exports.deleteComment = (req, res, next) => {
-    Comment.findOne({ _id: req.params.id })
+    Comment.findOne({ id: req.params.commentId })
       .then(Comment => {
-          Comment.destroy({ where: { _id: req.params.id } })
+          Comment.destroy({ where: { id: req.params.commentId } })
             .then(() => res.status(200).json({ message: 'Commentaire supprimé !'}))
             .catch(error => res.status(400).json({ error }))
         })

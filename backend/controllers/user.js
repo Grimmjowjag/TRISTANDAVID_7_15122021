@@ -13,7 +13,7 @@ exports.signup = (req, res, next) => {
         User.create({
           email: req.body.email,
           username: req.body.username,
-          password: hash
+          password: hash,
         })
         // et on renvoie un message pour confirmer l'enregistrement de notre user
           .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
