@@ -11,7 +11,11 @@ const { DataTypes } = require("sequelize")
     },
     user_id: { 
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references:{
+        model:'user',
+        key:'id'
+      }
     },
     imageUrl: {
       type: DataTypes.STRING,
@@ -36,7 +40,12 @@ const { DataTypes } = require("sequelize")
   },
     {
       tableName: "posts",
+      freezeTableName: true
     }
   )
 
-  module.exports = postModel
+  postModel.associate = function(models) {
+    models.post.belongsTo(models.User, {onDelete: 'CASCADE'})
+    }
+
+module.exports = postModel

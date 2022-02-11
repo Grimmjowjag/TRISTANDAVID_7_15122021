@@ -42,12 +42,12 @@ exports.createPost = (req, res, next) => {
   }
    
   exports.deletePost = (req, res, next) => {
-    Post.findOne({ where: { id: req.params.postId } })
+    Post.findOne({ where: { id: req.params.id } })
       .then(post => {
         // On extrait le nom du fichier à supprimer
         const filename = post.imageUrl.split('/images/')[1]
         fs.unlink(`images/${filename}`, () => {
-          Post.destroy({ where: { id: req.params.postId } })
+          Post.destroy({ where: { id: req.params.id } })
             .then(() => res.status(200).json({ message: 'Post supprimé !'}))
             .catch(error => res.status(400).json({ error }))
         })
@@ -60,24 +60,3 @@ exports.createPost = (req, res, next) => {
     .then((post) => {res.status(200).json(post)})
     .catch((error) => {res.status(400).json({error: error})})
   }
-  
-  // exports.likePost = (req, res, next) => {
-      
-  //   const Post = req.body.like
-  //   const userId = req.body.userId
-  
-  //   if (like === 1 ) {
-  //       // $inc permet de rajouter une valeur à une donnée numérique
-  //       Post.updateOne({ where: { _id: req.params.id } }, {$inc: {likes: 1}, $push: {usersLiked: userId}}) 
-  //           .then(() => res.status(200).json({message: 'Vous aimez ce post !'}))
-  //           .catch(error => res.status(400).json({ error }))
-  //   } else if (like === -1) {
-  //       // $push permet de rajouter un nouvel élément à un tableau
-  //       Post.updateOne({ where: { _id: req.params.id } }, {$inc: {dislikes: 1}, $push: {usersDisliked: userId}} )
-  //           .then(() => res.status(200).json({message: "Vous n'aimez pas ce post !"}))
-  //           .catch(error => res.status(400).json({ error }))
-  //   } else {
-  //         // Si le likescore n'est pas égal à 1/-1, l'app refuse la req
-  //         return 'Erreur dans la gestion des likes'
-  //       }
-  // }

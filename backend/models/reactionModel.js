@@ -1,7 +1,7 @@
 const sequelize = require("./DBconnect")
 const { DataTypes } = require("sequelize")
 
-const likeModel = sequelize.define("like", {
+const reactionModel = sequelize.define("like", {
 
     id: {
       type: DataTypes.INTEGER,
@@ -17,7 +17,7 @@ const likeModel = sequelize.define("like", {
     postId: {
       type: DataTypes.STRING,
       allowNull: false,
-      model:'post',
+      model:'posts',
       key:'id'
     },
   },
@@ -28,6 +28,10 @@ const likeModel = sequelize.define("like", {
     }
   )
 
-  module.exports = likeModel
+reactionModel.associate = function(models) {
+  models.like.belongsTo(models.User, {onDelete: 'CASCADE'}),
+  models.like.belongsTo(models.postModel, {onDelete: 'CASCADE'})
+  }
 
-// Utiliser méthode ***.***belongsTo({***.***,onDelete:'CASCADE'})
+  module.exports = reactionModel
+

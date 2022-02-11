@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const postCtrl = require('../controllers/post')
+const reactionCtrl = require('../controllers/reaction')
 const auth = require('../middleware/auth')
 const multer = require('../middleware/multer-config')
 
@@ -10,7 +11,11 @@ router.get('/', auth, postCtrl.getAllPosts)
 router.post('/', auth, multer, postCtrl.createPost)
 router.get('/:postId', auth, postCtrl.getOnePost)
 router.put('/:postId', auth, multer, postCtrl.modifyPost)
-router.delete('/:postId', auth, postCtrl.deletePost)
-// router.post('/:postId/like', auth, postCtrl.likePost)
+router.delete('/:id', auth, postCtrl.deletePost)
+
+// Routes likes
+// router.post('/:postId/like', auth, reactionCtrl.likePost)
+router.post('/like', auth, reactionCtrl.createLike)
+router.get('/posts/:id', auth, reactionCtrl.getAllLike)
 
 module.exports = router

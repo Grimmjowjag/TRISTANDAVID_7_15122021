@@ -2,7 +2,7 @@ const sequelize = require("./DBconnect")
 const { DataTypes } = require("sequelize")
 
 const commentModel = sequelize.define("comment", {
-
+    
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -16,6 +16,14 @@ const commentModel = sequelize.define("comment", {
           key:'id'
         }
     },
+    postId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references:{
+        model:'posts',
+        key:'id'
+      }
+    },
     description: {
       type: DataTypes.STRING,
       allowNull: false
@@ -25,7 +33,13 @@ const commentModel = sequelize.define("comment", {
       sequelize,
       freezeTableName: true,
       tableName: "comments",
-    }
+    },
+
   )
 
-  module.exports = commentModel
+commentModel.associate = function(models) {
+  models.comment.belongsTo(models.User, {onDelete: 'CASCADE'}),
+  models.comment.belongsTo(models.postModel, {onDelete: 'CASCADE'})
+  }
+
+module.exports = commentModel

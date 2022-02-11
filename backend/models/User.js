@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize')
 const sequelize = require("./DBconnect")
-const { DataTypes } = Sequelize // Clé qui nous permet d'accéder directement à DataTypes
-// const bcrypt = require('bcrypt')
+const { DataTypes } = Sequelize
 
 const User = sequelize.define('user', {
+
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -21,7 +21,7 @@ const User = sequelize.define('user', {
     username: {
         type: DataTypes.STRING,
         allowNull: false,
-        // validate oblige l'user à utiliser un nom compris entre 4 et 10 caractères, entrer un nom et ne pas entrer un nom vide
+        // validate oblige l'user à utiliser un nom compris entre 4 et 10 caractères et a pas entrer un nom vide
         validate: { 
             notNull:{msg: 'Vous devez entrer un nom' },
             notEmpty:{msg: 'Votre nom ne doit pas être vide' },
@@ -36,10 +36,11 @@ const User = sequelize.define('user', {
             notEmpty:{msg: 'Votre mot de passe ne doit pas être vide' }
         }
     },
-    // role: {
-    //     type: DataTypes.STRING,
-    //     allowNull: false
-    // },
+    role: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+    },
     age: {
         type: DataTypes.INTEGER
     },
@@ -51,11 +52,17 @@ const User = sequelize.define('user', {
         defaultValue: true
     }
 },
-{
-    freezeTableName: true, // empêche la pluralisation de mySQL Workbench
-    timestamps: false
-})
+    {
+        freezeTableName: true, // empêche la pluralisation de mySQL Workbench
+        timestamps: false
+    }
+)
 
+User.associate = function(models) {
+    models.user.hasMany(models.commentModel, {onDelete: 'CASCADE'}),
+    models.user.hasMany(models.postModel, {onDelete: 'CASCADE'})
+    }
+    
 module.exports = User
 
 
