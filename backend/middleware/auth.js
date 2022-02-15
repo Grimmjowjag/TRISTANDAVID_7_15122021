@@ -14,6 +14,7 @@ module.exports = (req, res, next) => {
       throw 'User ID non valable'
     // Si tout s'est bien passé, nous pouvons passer au middleware suivant avec next
     } else {
+      req.userAuth = { id: userId },
       next()
     }
     // Si une erreur s'affiche, on veut pouvoir les gérer avec catch

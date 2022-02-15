@@ -23,5 +23,4 @@ sequelize.authenticate()
         console.log("Non connecté!" + error)
     })
 
-// Connection à la DataBase
 module.exports = sequelize

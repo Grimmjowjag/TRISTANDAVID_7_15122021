@@ -1,16 +1,14 @@
 "use strict"
 
-// !!!!!!!!!!!!!!!!! PENSER A LINK LES TABLES !!!!!!!!!!!!!!!!!!!!!!!!
-
 const Post = require('../models/postModel')
 const fs = require('fs')
 
 exports.createPost = (req, res, next) => {
-  console.log(req.body)
+  console.log(req.body, req.userAuth)
     Post.create({
       title: req.body.title,
       description: req.body.description,
-      user_id: req.body.user_id,
+      user_id: req.userAuth.id,
       imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
       likes: 0,
       dislikes: 0

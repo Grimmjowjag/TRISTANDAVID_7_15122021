@@ -16,14 +16,14 @@ const commentModel = sequelize.define("comment", {
           key:'id'
         }
     },
-    postId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references:{
-        model:'posts',
-        key:'id'
-      }
-    },
+    // postId: {
+    //   type: DataTypes.INTEGER,
+    //   allowNull: false,
+    //   references:{
+    //     model:'posts',
+    //     key:'id'
+    //   }
+    // },
     description: {
       type: DataTypes.STRING,
       allowNull: false

@@ -4,7 +4,7 @@ exports.createComment = (req, res, next) => {
     Comment.create({
       description: req.body.description,
       user_id: req.body.user_id,
-      postId: req.body.postId,
+      // postId: req.body.postId,
     })
     .then(() => res.status(201).json({ message: 'Commentaire créé !'}))
     .catch(error => res.status(400).json({ error }))
@@ -25,5 +25,3 @@ exports.deleteComment = (req, res, next) => {
         })
       .catch(error => res.status(500).json({ error }))
   }
-
-// !!!!!!!!!!!!!!!!! PENSER A LINK LES TABLES - Utiliser méthode ***.***belongsTo({***.***,onDelete:'CASCADE'})!!!!!!!!!!!!!!!!!!!!!!!!

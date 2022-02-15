@@ -20,6 +20,11 @@ const reactionModel = sequelize.define("like", {
       model:'posts',
       key:'id'
     },
+    // Prévient du infinit like
+    isLike: {
+      allowNull: false,
+      type: DataTypes.INTEGER
+    },
   },
     {
       sequelize,

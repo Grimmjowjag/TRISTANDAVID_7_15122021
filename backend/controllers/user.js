@@ -39,11 +39,11 @@ exports.login = (req, res, next) => {
             if (!valid) {
               return res.status(401).json({ error: 'Mot de passe incorrect !' + valid })
             }
-            // On renvoie un statut "200" pour une bonne connection avec un userId et un token encodé/crypté (permet la connection)
+            // On renvoie un statut "200" pour une bonne connexion avec un userId et un token encodé/crypté (permet la connection)
             res.status(200).json({
-              userId: user._id,
+              userId: user.id,
               token: jwt.sign(
-                { userId: user._id },
+                { userId: user.id },
                 'RANDOM_TOKEN_SECRET',
                 { expiresIn: '24h' }
               )
