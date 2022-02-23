@@ -4,6 +4,7 @@
     <p v-if="abonnes == 0">Aucun abonnés pour le moment 😥</p>
     <p v-else-if="abonnes == 1">Une personne s'est abonnée, c'est super ! 💪</p>
     <p v-else>{{abonnes}} personnes se sont abonnées 🔥</p>
+    <p>Le total général depuis VueX est de {{ abonnesGeneral }}</p>
     <button @click="subscribe()">S'abonner !</button>
     <div class="comment" v-for="(comment, idx) in comments" v-bind:key="idx">
       <h3>{{comment.nom}}</h3>
@@ -18,9 +19,14 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'Accueil',
   props: {
     msg: String
+  },
+  computed: {
+    abonnesGeneral(){
+      return this.$store.state.abonnesFromVueX
+    }
   },
   data: function () {
     return {
@@ -67,6 +73,17 @@ a {
 
 p {
   font-size: 22px
+}
+
+button {
+  background-color: #4189f5;
+  color: white;
+  font-weight: bold;
+  padding: 1em;
+  border: none;
+  border-radius: 1.5em;
+  font-size: 1em;
+  cursor: pointer;
 }
 
 </style>

@@ -1,17 +1,21 @@
 <template>
-  <div id="app">
-    <img id="logo" alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Bienvenue sur le site Groupomania"/>
+  <div>
+  <nav>
+    <router-link to="/">Accueil</router-link> |
+    <router-link to="/about">Fil d'actualité</router-link> |
+    <router-link :to="{name: 'Profile', params: {name: 'Vous pouvez modifier votre profil'}}">Profil</router-link>
+  </nav>
+  <router-view/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Accueil from './components/Accueil.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Accueil
   }
 }
 </script>
@@ -24,6 +28,20 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+/* nav a {
+  font-size: 1.5em;
+} */
+
+a {
+  text-decoration: none;
+  color: blue;
+}
+
+.router-link-active {
+  font-weight: bold;
+  color: rgb(39, 39, 218);
 }
 
 #logo {
