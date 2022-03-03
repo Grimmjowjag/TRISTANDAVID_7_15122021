@@ -8,6 +8,7 @@ const path = require('path')
 const postRoutes = require('./routes/post')
 const commentRoutes = require('./routes/comment')
 const userRoutes = require('./routes/user')
+const cors = require("cors")
 const app = express()
 
 // ---- CORS (Cross-origin ressource sharing nécéssaire ici car le front et le back ne partagent pas la même origine) ----
@@ -30,6 +31,9 @@ const limiter = rateLimit({
 })
 
 // Appliqué à toutes les requêtes
+
+app.use(cors())
+
 app.use(limiter)
 
 app.use(express.json())

@@ -1,3 +1,3 @@
 <template>
-    <h1>Bonjour, vous vous êtes sûrement perdus !</h1>
+    <h1>Bonjour, vous vous êtes sûrement perdu(e) !</h1>
 </template>

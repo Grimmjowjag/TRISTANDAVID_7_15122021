@@ -10,8 +10,6 @@ const sequelize = new Sequelize( "sequelize-p7", "root", "noobolife75z$", {
 sequelize.authenticate()
     .then(() => {
         console.log("Database connectée!")
-        // { force: true }
-        // {alter: true}
         sequelize.sync({alter: true})
             .then( sync => {
                 console.log("Modèles synchronisés!")
