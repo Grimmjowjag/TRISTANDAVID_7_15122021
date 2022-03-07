@@ -4,7 +4,7 @@
     <p v-if="abonnes == 0">Aucun abonnés pour le moment 😥</p>
     <p v-else-if="abonnes == 1">Une personne s'est abonnée, c'est super ! 💪</p>
     <p v-else>{{abonnes}} personnes se sont abonnées 🔥</p>
-    <!-- <p>Le total général depuis VueX est de {{ abonnesGeneral }}</p> -->
+    <p>Le total général depuis VueX est de {{ abonnesGeneral }}</p>
     <button @click="subscribe()">S'abonner !</button>
     <div class="comment" v-for="(comment, idx) in comments" v-bind:key="idx">
       <h3>{{comment.nom}}</h3>

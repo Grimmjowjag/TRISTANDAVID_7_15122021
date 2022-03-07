@@ -38,6 +38,8 @@
 
 <script>
 
+import {mapState } from 'vuex'
+
 export default {
   name: 'Login',
   data: function () {
@@ -64,7 +66,8 @@ export default {
           return false
         }
       }
-    }
+    },
+    ...mapState(['status'])
   },
   methods: {
     switchToCreateAccount: function () {
@@ -73,6 +76,16 @@ export default {
     switchToLogin: function () {
         this.mode='login'
     },
+    login: function () {
+      this.$store.dispatch('login', {
+        email: this.email,
+        password: this.password,
+      }).then(function (response) {
+        console.log(response)
+      }, function (error) {
+        console.log(error)
+      })
+    },
     createAccount: function () {
       // Pour appeler une action, on utilise store.dispatch (store.commit pour appeler une mutation)
       this.$store.dispatch('createAccount', {
@@ -80,10 +93,10 @@ export default {
         nom: this.nom,
         prenom: this.prenom,
         password: this.password
-      }).then(function (response) {
-        console.log(response);
+      }).then(function () {
+        this.login()
       }, function (error) {
-        console.log(error);
+        console.log(error)
       })
     },
   }
