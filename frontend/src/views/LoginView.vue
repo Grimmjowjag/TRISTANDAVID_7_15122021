@@ -51,6 +51,13 @@ export default {
       password: '',
     }
   },
+  mounted: function () {
+    if (this.$store.state.user.userId == -1) {
+      this.$router.push('/profile')
+      return
+    }
+  },
+
   computed: {
     validatedFields: function () {
       if (this.mode == 'create') {
@@ -76,18 +83,22 @@ export default {
     switchToLogin: function () {
         this.mode='login'
     },
+  
     login: function () {
+      const self = this
       this.$store.dispatch('login', {
         email: this.email,
         password: this.password,
-      }).then(function (response) {
-        console.log(response)
+      }).then(function () {
+        this.$router.push('/home')
       }, function (error) {
         console.log(error)
       })
     },
+
     createAccount: function () {
       // Pour appeler une action, on utilise store.dispatch (store.commit pour appeler une mutation)
+      const self = this
       this.$store.dispatch('createAccount', {
         email: this.email,
         nom: this.nom,
