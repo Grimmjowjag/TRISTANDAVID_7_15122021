@@ -1,5 +1,7 @@
 import { createStore } from 'vuex'
 
+// Vuex est une bibliothèque de gestion d'état pour les applications Vue. js. Au centre de chaque application Vuex se trouve un "store", qui est essentiellement un objet contenant l'état de l'application.
+
 const axios = require('axios')
 
 const instance = axios.create({
@@ -25,7 +27,7 @@ if (!user) {
 }
 
 const store = createStore({
-  // Données à l'intérieur de l'objet "state"
+  // Etat des données de l'application à l'intérieur de l'objet "state"
   state: {
 
     status: '',
@@ -36,8 +38,11 @@ const store = createStore({
       nom:'',
       prenom: '',
       email: '',
+      username: ''
     },
   },
+
+  // Les mutations doivent être synchrones. Elles vont prendre les paramètres en compte et les placer dans le state
   mutations: {
 
     setStatus: function (state, status) {
@@ -60,6 +65,7 @@ const store = createStore({
     }
   },
 
+  // Les actions permettent de changer les données en fonction des saisies de l'utilisateur dans les views, elles peuvent être asynchrones (ex: si on va chercher des données depuis une DB, on va devoir attendre le retour serveur -> seulement depuis l'action, pas la mutation)
   actions: {
 
     login: ({commit}, userInfos) => {
@@ -69,7 +75,7 @@ const store = createStore({
         .then(function (response) {
           commit('setStatus', '')
           commit('logUser', response.data)
-          resolve(response.data)
+          resolve(response.data.message)
         })
         .catch(function (error) {
           commit('setStatus', 'error_login')

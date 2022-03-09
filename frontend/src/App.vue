@@ -2,7 +2,6 @@
   <div>
   <nav>
     <router-link to="/home">Accueil</router-link> |
-    <router-link to="/actuality">Fil d'actualité</router-link> |
     <router-link to="/profile">Profil</router-link>
   </nav>
   <router-view/>

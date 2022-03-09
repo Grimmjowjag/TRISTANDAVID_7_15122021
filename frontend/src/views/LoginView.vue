@@ -53,7 +53,7 @@ export default {
   },
   mounted: function () {
     if (this.$store.state.user.userId == -1) {
-      this.$router.push('/profile')
+      this.$router.push('/')
       return
     }
   },
@@ -83,21 +83,23 @@ export default {
     switchToLogin: function () {
         this.mode='login'
     },
-  
+
+    // Pour appeler une action, on utilise store.dispatch (store.commit pour appeler une mutation)
+
+    // store.dispatch peut déclencher plusieurs gestionnaires d'action dans différents modules. Dans ce cas, la valeur renvoyée sera une promise qui se résout lorsque tous les gestionnaires déclenchés ont été résolus.
     login: function () {
       const self = this
       this.$store.dispatch('login', {
         email: this.email,
         password: this.password,
       }).then(function () {
-        this.$router.push('/home')
+        self.$router.push('/home')
       }, function (error) {
         console.log(error)
       })
     },
 
     createAccount: function () {
-      // Pour appeler une action, on utilise store.dispatch (store.commit pour appeler une mutation)
       const self = this
       this.$store.dispatch('createAccount', {
         email: this.email,
@@ -105,7 +107,7 @@ export default {
         prenom: this.prenom,
         password: this.password
       }).then(function () {
-        this.login()
+        self.login()
       }, function (error) {
         console.log(error)
       })

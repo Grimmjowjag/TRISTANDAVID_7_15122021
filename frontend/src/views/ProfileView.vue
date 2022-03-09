@@ -4,6 +4,9 @@
     <p class="card__subtitle">Informations de compte</p>
     <p>{{user.prenom}} {{user.nom}} {{user.email}}</p>
     <div class="form-row">
+      <button @click="supress()" class="suppressbutton">
+        Supprimer le compte
+      </button>
       <button @click="logout()" class="button">
         Déconnexion
       </button>
@@ -31,6 +34,9 @@ export default {
     })
   },
   methods: {
+    supress: function () {
+      this.$store.commit('supress')
+    },
     logout: function () {
       this.$store.commit('logout')
       this.$router.push('/')
@@ -40,5 +46,18 @@ export default {
 </script>
 
 <style scoped>
+
+.suppressbutton {
+  background: #4189f5;
+  color:white;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 15px;
+  border: none;
+  width: 50%;
+  padding: 12px;
+  transition: .4s background-color;
+  margin-bottom: 1em;
+}
 
 </style>

@@ -12,7 +12,7 @@ exports.signup = (req, res, next) => {
         // Création du nouvel utilisateur avec un email, un username et un mot de passe crypté
         User.create({
           email: req.body.email,
-          username: req.body.username,
+          // username: req.body.username,
           password: hash,
         })
         // et on renvoie un message pour confirmer l'enregistrement de notre user
@@ -25,7 +25,8 @@ exports.signup = (req, res, next) => {
 // Connection des utilisateurs existants
 exports.login = (req, res, next) => {
     // On essaie de trouver un seul utilisateur de la base de donnée
-    User.findOne({ where: { username: req.body.username } })
+    console.log(req.body.email)
+    User.findOne({ where: { email: req.body.email } })
       .then(user => {
         if (!user) {
           return res.status(401).json({ error: 'Utilisateur non trouvé !' })
