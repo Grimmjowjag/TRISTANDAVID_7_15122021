@@ -1,3 +1,4 @@
+import store from '@/store'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
@@ -16,6 +17,14 @@ const routes = [
     // this generates a separate chunk (actuality.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "home" */ '../views/HomeView.vue'),
+    // Le naviguation guard empêche l'accès au pages sans authentification
+    beforeEnter: (to, from, next) => {
+      if(store.state.user.userId == -1) {
+        next("/")
+      } else {
+        next()
+      }
+    },
     meta: {
       title: 'Fil actualité'
     }
@@ -24,6 +33,13 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: () => import(/* webpackChunkName: "profile" */ '../views/ProfileView.vue'),
+    beforeEnter: (to, from, next) => {
+      if(store.state.user.userId == -1) {
+        next("/")
+      } else {
+        next()
+      }
+    },
     props: true,
     meta: {
       title: 'Profil'

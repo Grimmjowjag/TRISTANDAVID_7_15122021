@@ -51,13 +51,7 @@ export default {
       password: '',
     }
   },
-  mounted: function () {
-    if (this.$store.state.user.userId == -1) {
-      this.$router.push('/')
-      return
-    }
-  },
-
+ 
   computed: {
     validatedFields: function () {
       if (this.mode == 'create') {

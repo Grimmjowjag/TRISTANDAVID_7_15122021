@@ -20,11 +20,5 @@ export default {
   components: {
     Accueil
   },
-  mounted: function () {
-    if (this.$store.state.user.userId == -1) {
-      this.$router.push('/')
-      return
-    }
-  }
 }
 </script>
