@@ -35,11 +35,15 @@ const store = createStore({
     user: user,
 
     userInfos: {
+      userId: '',
       nom:'',
       prenom: '',
       email: '',
       username: ''
     },
+
+    posts: [],
+
   },
 
   // Les mutations doivent être synchrones. Elles vont prendre les paramètres en compte et les placer dans le state
@@ -62,6 +66,9 @@ const store = createStore({
         token: '',
       }
       localStorage.removeItem('user')
+    },
+    supress: function (state, userInfos) {
+      state.user = userInfos
     }
   },
 
@@ -106,7 +113,21 @@ const store = createStore({
       })
       .catch(function () {
       })
-    }
+    },
+
+    supressProfile: ({commit}, userInfos) => {
+      commit('setStatus', 'deleting')
+      return new Promise((resolve, reject) => {
+        instance.delete('/auth' + userInfos)
+        .then((response) => {
+          commit('setStatus', 'deleted')
+          resolve(response.data)
+        })
+        .catch((error) => {
+          reject(error)
+        })
+      })
+    },
   } 
 })
 

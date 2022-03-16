@@ -33,6 +33,7 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: () => import(/* webpackChunkName: "profile" */ '../views/ProfileView.vue'),
+    // beforeEach nav guard
     beforeEnter: (to, from, next) => {
       if(store.state.user.userId == -1) {
         next("/")

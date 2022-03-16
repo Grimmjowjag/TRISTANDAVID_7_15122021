@@ -10,7 +10,6 @@ exports.createLike = (req, res, next) => {
 }
 
 exports.likePost = (req, res, next) => {
-
     const postId = parseInt(req.params.postId)
 
     if (postId <= 0 ){

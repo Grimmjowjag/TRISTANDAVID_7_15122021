@@ -21,10 +21,10 @@ const reactionModel = sequelize.define("like", {
       key:'id'
     },
     // Prévient du infinit like
-    // isLike: {
-    //   allowNull: false,
-    //   type: DataTypes.INTEGER
-    // },
+    isLike: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
   },
     {
       sequelize,
