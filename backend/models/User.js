@@ -26,6 +26,14 @@ const User = sequelize.define('user', {
             notEmpty:{msg: 'Votre mot de passe ne doit pas être vide' }
         }
     },
+    prenom: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    nom: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     role: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
@@ -40,7 +48,8 @@ const User = sequelize.define('user', {
 
 User.associate = function(models) {
     models.user.hasMany(models.commentModel, {onDelete: 'CASCADE'}),
-    models.user.hasMany(models.postModel, {onDelete: 'CASCADE'})
+    models.user.hasMany(models.postModel, {onDelete: 'CASCADE'}),
+    models.user.hasMany(models.reactionModel, {onDelete: 'CASCADE'})
     }
     
 module.exports = User

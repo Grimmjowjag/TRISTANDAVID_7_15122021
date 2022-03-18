@@ -61,9 +61,13 @@ exports.getOneUser = (req, res, next) => {
 }
 
 exports.modifyUser = (req, res, next) => {
-  User.update({ where: { id: req.params.userId } })
-    .then(() => res.status(200).json({ message: 'Profil modifié !' }))
-    .catch(error => res.status(400).json({ error: error }))
+  User.findOne({ where: { id: req.params.userId } })
+    .then(user => {
+      const modUser = Object.assign(user, req.body)
+      modUser.save()
+        .then(() => res.status(200).json({ message: 'Profil modifié !' }))
+        .catch(error => res.status(400).json({ error: error }))
+    }).catch(error => res.status(500).json({ error }))
 }
 
 exports.deleteUser = (req, res, next) => {

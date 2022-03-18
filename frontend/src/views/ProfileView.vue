@@ -2,17 +2,13 @@
   <div class="card">
     <h1 class="card__title">Profil</h1>
     <p class="card__subtitle">Informations de compte</p>
-    <div class="profile__infos">
-      <div>
-        <p>{{user.prenom}}{{user.nom}}{{user.email}}{{user}}</p>
-      </div>
-    </div>
-
+    <p class="form-row">Nom | prénom : <span class="card__action">{{ prenom }} {{ nom }}</span></p>
+    <p class="form-row">Email : <span class="card__action">{{ email }}</span></p>
     <div class="form-row">
       <button @click="modify()" class="modifybutton">
         Modifier le profil
       </button>
-      <button @click="supressProfile()" class="suppressbutton">
+      <button @click="supressProfile($route.params.userId)" class="suppressbutton">
         Supprimer le compte
       </button>
       <button @click="logout()" class="button">
@@ -24,37 +20,39 @@
 
 <script>
 
-import {mapState } from 'vuex'
+import {mapActions, mapState } from 'vuex'
 
 export default {
   name: 'Profile',
-
   data: function () {
     return {
-      admin: false,
+      email: '',
+      prenom: '',
+      nom: '',
+      password: '',
     }
   },
-  
+
+  async mounted() {
+    this.email = "Tristan@gmail.com"
+    this.prenom = "Grimmjow"
+    this.nom = "Jaggerjack"
+  },
+
   computed: {
     ...mapState({
-      user: 'userInfos',
+      user: 'user',
     })
   },
   methods: {
-    switchTosupressProfile: function () {
-        this.mode='supressProfile'
+    ...mapActions(['supressProfile']),
+    async supressProfile(userId){
+      await this.supressProfile(userId)
+      localStorage.clear()
+      this.$store.commit('logout')
+      await this.$router.push('/home')
     },
-    supressProfile: function () {
-      const self = this
-      this.$store.dispatch('supressProfile', {
-      
-      })
-      .then(function () {
-        self.$router.push('/profile')
-      }, function (error) {
-        console.log(error)
-      })
-    },
+
     logout: function () {
       this.$store.commit('logout')
       this.$router.push('/')
@@ -72,7 +70,7 @@ export default {
   font-weight: 800;
   font-size: 15px;
   border: none;
-  width: 50%;
+  width: 40%;
   padding: 12px;
   transition: .4s background-color;
   margin: 1em;
@@ -86,7 +84,7 @@ export default {
   font-weight: 800;
   font-size: 15px;
   border: none;
-  width: 50%;
+  width: 40%;
   padding: 12px;
   transition: .4s background-color;
   cursor: pointer;

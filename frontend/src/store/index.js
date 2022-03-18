@@ -67,9 +67,6 @@ const store = createStore({
       }
       localStorage.removeItem('user')
     },
-    supress: function (state, userInfos) {
-      state.user = userInfos
-    }
   },
 
   // Les actions permettent de changer les données en fonction des saisies de l'utilisateur dans les views, elles peuvent être asynchrones (ex: si on va chercher des données depuis une DB, on va devoir attendre le retour serveur -> seulement depuis l'action, pas la mutation)
@@ -115,10 +112,9 @@ const store = createStore({
       })
     },
 
-    supressProfile: ({commit}, userInfos) => {
-      commit('setStatus', 'deleting')
+    supressProfile: ({commit}, id) => {
       return new Promise((resolve, reject) => {
-        instance.delete('/auth' + userInfos)
+        instance.delete('/auth/' + id)
         .then((response) => {
           commit('setStatus', 'deleted')
           resolve(response.data)

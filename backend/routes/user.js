@@ -6,7 +6,6 @@ const auth = require('../middleware/auth')
 // Controler pour associer les fonctions aux différentes routes
 const userCtrl = require('../controllers/user')
 
-// Création de deux routes "post" pour envoyer mail et mdp
 router.post('/signup', validator, userCtrl.signup)
 router.post('/login', userCtrl.login)
 router.get('/:userId', auth, userCtrl.getOneUser)
