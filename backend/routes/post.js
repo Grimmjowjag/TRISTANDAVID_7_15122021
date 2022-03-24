@@ -15,6 +15,6 @@ router.delete('/:id', auth, postCtrl.deletePost)
 router.post('/:postId/like', auth, reactionCtrl.likePost)
 // router.post('/:postId/unlike', auth, reactionCtrl.unlikePost)
 router.post('/like', auth, reactionCtrl.createLike)
-router.get('/posts/:id', auth, reactionCtrl.getAllLike)
+router.get('/posts/:id', auth, reactionCtrl.getOneLike)
 
 module.exports = router

@@ -55,7 +55,9 @@ exports.login = (req, res, next) => {
 }
 
 exports.getOneUser = (req, res, next) => {
-  User.findOne({ where: { id: req.params.userId } })
+  User.findOne({ 
+    where: { id: req.params.userId }, 
+    attributes: { exclude: ["password"] } })
     .then((user) => { res.status(200).json(user) })
     .catch((error) => { res.status(404).json({ error: error }) })
 }
@@ -71,6 +73,9 @@ exports.modifyUser = (req, res, next) => {
 }
 
 exports.deleteUser = (req, res, next) => {
+  // if (req.params.id != req.auth && !req.isadmin) {
+  //   return res.status(401).json({ message: 'Requête non autorisée !' })
+  // }
   User.findOne({ where: { id: req.params.id } })
     .then(User => {
       User.destroy({ where: { id: req.params.id } })

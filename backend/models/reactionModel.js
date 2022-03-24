@@ -11,8 +11,10 @@ const reactionModel = sequelize.define("like", {
     user_id: { 
       type: DataTypes.INTEGER,
       allowNull: false,
-      model:'user',
-      key:'id'
+      references:{
+        model:'user',
+        key:'id'
+      }
     },
     postId: {
       type: DataTypes.STRING,
@@ -21,10 +23,10 @@ const reactionModel = sequelize.define("like", {
       key:'id'
     },
     // Prévient du infinit like
-    isLike: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
+    // isLike: {
+    //   type: DataTypes.INTEGER,
+    //   allowNull: false
+    // },
   },
     {
       sequelize,

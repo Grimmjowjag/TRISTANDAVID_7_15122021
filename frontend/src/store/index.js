@@ -10,7 +10,7 @@ const instance = axios.create({
 
 let user = localStorage.getItem('user')
 if (!user) {
- user = {
+  user = {
     userId: -1,
     token: '',
   }
@@ -36,7 +36,7 @@ const store = createStore({
 
     userInfos: {
       userId: '',
-      nom:'',
+      nom: '',
       prenom: '',
       email: '',
       username: ''
@@ -72,59 +72,65 @@ const store = createStore({
   // Les actions permettent de changer les données en fonction des saisies de l'utilisateur dans les views, elles peuvent être asynchrones (ex: si on va chercher des données depuis une DB, on va devoir attendre le retour serveur -> seulement depuis l'action, pas la mutation)
   actions: {
 
-    login: ({commit}, userInfos) => {
+    login: ({ commit }, userInfos) => {
       commit('setStatus', 'loading')
       return new Promise((resolve, reject) => {
         instance.post('/auth/login', userInfos)
-        .then(function (response) {
-          commit('setStatus', '')
-          commit('logUser', response.data)
-          resolve(response.data.message)
-        })
-        .catch(function (error) {
-          commit('setStatus', 'error_login')
-          reject(error)
-        })
+          .then(function (response) {
+            commit('setStatus', '')
+            commit('logUser', response.data)
+            resolve(response.data.message)
+          })
+          .catch(function (error) {
+            commit('setStatus', 'error_login')
+            reject(error)
+          })
       })
     },
 
-    createAccount: ({commit}, userInfos) => {
+    createAccount: ({ commit }, userInfos) => {
       commit('setStatus', 'loading')
       return new Promise((resolve, reject) => {
         instance.post('/auth/signup', userInfos)
-        .then(function (response) {
-          commit('setStatus', 'created')
-          resolve(response.data.message)
-        })
-        .catch(function (error) {
-          commit('setStatus', 'error_create')
-          reject(error)
-        })
+          .then(function (response) {
+            commit('setStatus', 'created')
+            resolve(response.data.message)
+          })
+          .catch(function (error) {
+            commit('setStatus', 'error_create')
+            reject(error)
+          })
       })
     },
 
-    getUserInfos: ({commit}) => {
-      instance.post('/infos')
-      .then(function (response) {
-        commit('userInfos', response.data.infos)
-      })
-      .catch(function () {
+    getUserInfos: ({ commit }, id) => {
+      return new Promise((resolve, reject) => {
+        instance.get('/profile/' + id)
+          .then((response) => {
+            commit('userInfos', response.data)
+            resolve(response)
+          })
+          .catch((error) => {
+            console.error(error),
+              reject(error)
+          })
       })
     },
 
-    supressProfile: ({commit}, id) => {
+    supressProfile: ({ commit }, id) => {
       return new Promise((resolve, reject) => {
         instance.delete('/auth/' + id)
-        .then((response) => {
-          commit('setStatus', 'deleted')
-          resolve(response.data)
-        })
-        .catch((error) => {
-          reject(error)
-        })
+          .then((response) => {
+            commit('setStatus', 'deleted')
+            resolve(response)
+          })
+          .catch((error) => {
+            console.error(error)
+            reject(error)
+          })
       })
     },
-  } 
+  }
 })
 
 export default store

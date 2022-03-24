@@ -45,7 +45,8 @@ const { DataTypes } = require("sequelize")
   )
 
   postModel.associate = function(models) {
-    models.post.belongsTo(models.User, {onDelete: 'CASCADE'})
+    models.post.belongsTo(models.User, {onDelete: 'CASCADE'}),
+    models.post.hasMany(models.reactionModel, {onDelete: 'CASCADE'})
     }
 
 module.exports = postModel

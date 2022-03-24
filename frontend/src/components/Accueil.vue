@@ -5,6 +5,7 @@
     <p v-else-if="abonnes == 1">Une personne s'est abonnée, c'est super ! 💪</p>
     <p v-else>{{abonnes}} personnes se sont abonnées 🔥</p>
     <button @click="subscribe()">S'abonner !</button>
+    <button @click="Seecoms()">Voir les commentaires</button>
     <div class="comment" v-for="(comment, idx) in comments" v-bind:key="idx">
       <h3>{{comment.nom}}</h3>
       <p>{{comment.commentaire}}</p>

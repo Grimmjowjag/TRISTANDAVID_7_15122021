@@ -23,8 +23,8 @@ exports.unlikePost = (req, res, next) => {
 
 }
 
-exports.getAllLike = (req, res, next) => {
-    Like.findAll({ where: { id: req.params.postId } })
+exports.getOneLike = (req, res, next) => {
+    Like.findOne({ where: { id: req.params.postId } })
     .then((like) => {res.status(200).json(like)})
     .catch((error) => {res.status(404).json({error: error})})
 }
