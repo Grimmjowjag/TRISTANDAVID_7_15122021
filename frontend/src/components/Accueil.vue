@@ -1,10 +1,10 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <p v-if="abonnes == 0">Aucun abonné pour le moment 😥</p>
-    <p v-else-if="abonnes == 1">Une personne s'est abonnée, c'est super ! 💪</p>
-    <p v-else>{{abonnes}} personnes se sont abonnées 🔥</p>
-    <button @click="subscribe()">S'abonner !</button>
+    <p v-if="abonnes == 0">Aucun like pour le moment 😥</p>
+    <p v-else-if="abonnes == 1">Une personne aime ce post, c'est super ! 💪</p>
+    <p v-else>{{abonnes}} personnes ont liké 🔥</p>
+    <button @click="subscribe()">Like !</button>
     <button @click="Seecoms()">Voir les commentaires</button>
     <div class="comment" v-for="(comment, idx) in comments" v-bind:key="idx">
       <h3>{{comment.nom}}</h3>

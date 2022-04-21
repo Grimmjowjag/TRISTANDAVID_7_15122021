@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+// importer moment pour date/heure des posts
 
 // Vuex est une bibliothèque de gestion d'état pour les applications Vue. js. Au centre de chaque application Vuex se trouve un "store", qui est essentiellement un objet contenant l'état de l'application.
 
@@ -17,7 +18,7 @@ if (!user) {
 } else {
   try {
     user = JSON.parse(user)
-    instance.defaults.headers.common['Authorization'] = user.token
+    instance.defaults.headers.common.Authorization = `Bearer ${user.token}`
   } catch (ex) {
     user = {
       userId: -1,
@@ -53,7 +54,7 @@ const store = createStore({
       state.status = status
     },
     logUser: function (state, user) {
-      instance.defaults.headers.common['Authorization'] = user.token
+      instance.defaults.headers.common.Authorization = `Bearer ${user.token}`
       localStorage.setItem('user', JSON.stringify(user))
       state.user = user
     },
@@ -104,9 +105,11 @@ const store = createStore({
     },
 
     getUserInfos: ({ commit }, id) => {
+      console.log(id)
       return new Promise((resolve, reject) => {
-        instance.get('/profile/' + id)
+        instance.get('/auth/' + id)
           .then((response) => {
+            console.log(response)
             commit('userInfos', response.data)
             resolve(response)
           })

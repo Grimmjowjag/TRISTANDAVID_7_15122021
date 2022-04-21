@@ -13,6 +13,8 @@ exports.signup = (req, res, next) => {
       User.create({
         email: req.body.email,
         password: hash,
+        prenom: req.body.prenom,
+        nom: req.body.nom
       })
         // et on renvoie un message pour confirmer l'enregistrement de notre user
         .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
@@ -55,8 +57,8 @@ exports.login = (req, res, next) => {
 }
 
 exports.getOneUser = (req, res, next) => {
-  User.findOne({ 
-    where: { id: req.params.userId }, 
+  User.findOne({
+    where: { id: req.params.userId },
     attributes: { exclude: ["password"] } })
     .then((user) => { res.status(200).json(user) })
     .catch((error) => { res.status(404).json({ error: error }) })

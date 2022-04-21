@@ -2,10 +2,10 @@
   <div class="card">
     <h1 class="card__title">Profil</h1>
     <p class="card__subtitle">Informations de compte</p>
-    <p class="form-row">Prénom | Nom : <span class="card__action">{{ prenom }} {{ nom }}</span></p>
-    <p class="form-row">Email : <span class="card__action">{{ email }}</span></p>
+    <p class="form-row">Prénom | Nom : <span class="card__action">{{ userInfos.prenom }} {{ userInfos.nom }}</span></p>
+    <p class="form-row">Email : <span class="card__action">{{ userInfos.email }}</span></p>
     <div class="form-row">
-      <button @click="supressProfile($route.params.userId)" class="suppressbutton">Supprimer le compte</button>
+      <button @click="supressProfile(user.userId)" class="suppressbutton">Supprimer le compte</button>
 
       <button @click="logout()" class="button">Déconnexion</button>
     </div>
@@ -19,10 +19,7 @@ export default {
   name: "Profile",
   data: function () {
     return {
-      email: "",
-      prenom: "",
-      nom: "",
-      password: "",
+      
     }
   },
 
@@ -31,15 +28,15 @@ export default {
       this.$router.push("/");
       return
     }
-    // const userInfos = await this.getUserInfos(this.user.id) accéder req du store
-    this.email = "Tristan@gmail.com"
-    this.prenom = "Tristan"
-    this.nom = "David"
+    else {
+      this.$store.dispatch("getUserInfos", this.$store.state.user.userId)
+    }
   },
 
   computed: {
     ...mapState({
       user: "user",
+      userInfos: "userInfos"
     }),
   },
   methods: {
@@ -49,7 +46,7 @@ export default {
       await this.$router.push("/")
     },
     async supressProfile(userId) {
-      await this.supressProfile(userId)
+      await this.$store.dispatch("supressProfile", userId)
       localStorage.clear()
       this.$store.commit("logout")
       await this.$router.push("/")
