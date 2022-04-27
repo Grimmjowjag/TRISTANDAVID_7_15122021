@@ -10,6 +10,7 @@ const routes = [
       title: 'Connexion'
     }
   },
+
   {
     path: '/home',
     name: 'Home',
@@ -17,7 +18,7 @@ const routes = [
     // this generates a separate chunk (actuality.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "home" */ '../views/HomeView.vue'),
-    // Le naviguation guard empêche l'accès au pages sans authentification
+    // Le naviguation guard empêche l'accès aux pages sans authentification
     beforeEnter: (to, from, next) => {
       if(store.state.user.userId == -1) {
         next("/")
@@ -29,11 +30,29 @@ const routes = [
       title: 'Fil actualité'
     }
   },
+
+  {
+    path: '/posts',
+    name: 'Posts',
+    component: () => import(/* webpackChunkName: "login" */ '../views/LoginView.vue'),
+    meta: {
+      title: 'Publications'
+    }
+  },
+
+  {
+    path: '/comment/:postId',
+    name: 'Comment',
+    component: () => import(/* webpackChunkName: "login" */ '../views/LoginView.vue'),
+    meta: {
+      title: 'Commentaires'
+    }
+  },
+
   {
     path: '/profile',
     name: 'Profile',
     component: () => import(/* webpackChunkName: "profile" */ '../views/ProfileView.vue'),
-    // beforeEach nav guard
     beforeEnter: (to, from, next) => {
       if(store.state.user.userId == -1) {
         next("/")
@@ -46,7 +65,17 @@ const routes = [
       title: 'Profil'
     }
   },
-  // Route NotFound va gérer les cas où une route n'existe pas
+
+  {
+    path: '/profile/all',
+    name: 'allProfile',
+    component: () => import(/* webpackChunkName: "login" */ '../views/LoginView.vue'),
+    meta: {
+      title: 'Tous les utilisateurs'
+    }
+  },
+
+  // NotFound va gérer les cas où une route n'existe pas
   {
     path: '/:pathMatch(.*)',
     name: 'NotFound',

@@ -40,7 +40,7 @@ a {
 
 .router-link-active {
   font-weight: bold;
-  color: rgb(39, 39, 218);
+  color: #091F43;
 }
 
 #logo {
@@ -48,7 +48,7 @@ a {
 }
 
 body {
-  background-image: linear-gradient(#c71e1e, #3d3db1);
+  background-image: linear-gradient(#D1515A, #091F43);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -72,7 +72,7 @@ img {
 .card__title {
   text-align: center;
   font-weight: 800;
-  color: blue;
+  color: #091F43;
 }
 .card__subtitle {
   text-align: center;
@@ -80,7 +80,7 @@ img {
   font-weight: 500;
 }
 .button {
-  background: #4189f5;
+  background: #091F43;
   color: white;
   border-radius: 8px;
   font-weight: 800;
@@ -91,7 +91,7 @@ img {
   transition: 0.4s background-color;
 }
 .card__action {
-  color: #2196f3;
+  color: #091F43;
   text-decoration: underline;
 }
 .card__action:hover {
@@ -99,7 +99,7 @@ img {
 }
 .button:hover {
   cursor: pointer;
-  background: #1976d2;
+  background: #D1515A;
 }
 .button--disabled {
   background: #cecece;
@@ -111,7 +111,7 @@ img {
 }
 
 .suppressbutton {
-  background: #4189f5;
+  background: #091F43;
   color: white;
   border-radius: 8px;
   font-weight: 800;

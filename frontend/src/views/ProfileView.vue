@@ -63,6 +63,6 @@ export default {
 }
 
 .card__action {
-  color: #2196f3;
+  color: #091F43;
 }
 </style>

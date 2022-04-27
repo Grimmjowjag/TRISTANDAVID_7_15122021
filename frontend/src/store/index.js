@@ -43,7 +43,22 @@ const store = createStore({
       username: ''
     },
 
-    posts: [],
+    postsInfos: {
+      username: '',
+      title: '',
+      description: '',
+      likes: '',
+      dislikes: ''
+    },
+
+    likeInfos: {
+      likes: '',
+    },
+
+    commentInfos: {
+      description: '',
+      postid: ''
+    }
 
   },
 
@@ -68,6 +83,15 @@ const store = createStore({
       }
       localStorage.removeItem('user')
     },
+    postsInfos: function (state, postsInfos) {
+      state.postsInfos = postsInfos
+    },
+    likeInfos: function (state, likeInfos) {
+      state.likeInfos = likeInfos
+    },
+    commentInfos: function (state, commentInfos) {
+      state.commentInfos = commentInfos
+    }
   },
 
   // Les actions permettent de changer les données en fonction des saisies de l'utilisateur dans les views, elles peuvent être asynchrones (ex: si on va chercher des données depuis une DB, on va devoir attendre le retour serveur -> seulement depuis l'action, pas la mutation)
@@ -105,11 +129,9 @@ const store = createStore({
     },
 
     getUserInfos: ({ commit }, id) => {
-      console.log(id)
       return new Promise((resolve, reject) => {
         instance.get('/auth/' + id)
           .then((response) => {
-            console.log(response)
             commit('userInfos', response.data)
             resolve(response)
           })
@@ -130,6 +152,90 @@ const store = createStore({
           .catch((error) => {
             console.error(error)
             reject(error)
+          })
+      })
+    },
+
+    createPost: ({ commit }, data) => {
+      return new Promise((resolve, reject) => {
+        instance.post('/posts', data)
+          .then((response) => {
+            commit('setStatus', 'created')
+            resolve(response.data)
+          })
+          .catch((error) => {
+            console.error(error),
+              reject(error)
+          })
+      })
+    },
+
+    deletePost: ({ commit }, data) => {
+      return new Promise((resolve, reject) => {
+        instance.delete('/posts/' + data.postid)
+          .then((response) => {
+            commit('postsInfos', response.data)
+            resolve(response.data)
+          })
+          .catch((error) => {
+            console.error(error),
+              reject(error)
+          })
+      })
+    },
+
+    postLikes: ({ commit }, postid) => {
+      return new Promise((resolve, reject) => {
+        instance.post('/posts/' + postid + '/like')
+          .then((response) => {
+            commit('likeInfos', response.data)
+            resolve(response.data)
+          })
+          .catch((error) => {
+            console.error(error),
+              reject(error)
+          })
+      })
+    },
+
+    getPostComment: ({ commit }, postid) => {
+      return new Promise((resolve, reject) => {
+        instance.get('/comment/' + postid)
+          .then((response) => {
+            commit('commentInfos', response.data)
+            resolve(response.data)
+          })
+          .catch((error) => {
+            console.error(error),
+              reject(error)
+          })
+      })
+    },
+
+    createComment: ({ commit }, data) => {
+      return new Promise((resolve, reject) => {
+        instance.post('/comment/' + data.postid, { content: data.content })
+          .then((response) => {
+            commit('setStatus', 'created')
+            resolve(response.data)
+          })
+          .catch((error) => {
+            console.error(error),
+              reject(error)
+          })
+      })
+    },
+
+    deleteComment: ({ commit }, data) => {
+      return new Promise((resolve, reject) => {
+        instance.delete('/comment/' + data.postid + '/' + data.commentid)
+          .then((response) => {
+            commit('commentInfos', response.data)
+            resolve(response.data)
+          })
+          .catch((error) => {
+            console.error(error),
+              reject(error)
           })
       })
     },
