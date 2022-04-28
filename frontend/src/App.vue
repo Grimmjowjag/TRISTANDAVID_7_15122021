@@ -9,14 +9,15 @@
 </template>
 
 <script>
-import Accueil from "./components/Accueil.vue";
+import Accueil from "./components/Accueil.vue"
 
 export default {
   name: "App",
   components: {
     Accueil,
   },
-};
+}
+
 </script>
 
 <style>
@@ -63,7 +64,7 @@ img {
 
 .card {
   max-width: 100%;
-  width: 540px;
+  width: 600px;
   background: white;
   border-radius: 16px;
   padding: 32px;

@@ -37,6 +37,7 @@ const store = createStore({
 
     userInfos: {
       userId: '',
+      isAdmin: '',
       nom: '',
       prenom: '',
       email: '',
@@ -228,7 +229,7 @@ const store = createStore({
 
     deleteComment: ({ commit }, data) => {
       return new Promise((resolve, reject) => {
-        instance.delete('/comment/' + data.postid + '/' + data.commentid)
+        instance.delete('/comment/' + data.postid + '/' + data.commentId)
           .then((response) => {
             commit('commentInfos', response.data)
             resolve(response.data)

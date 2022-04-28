@@ -1,6 +1,7 @@
 import store from '@/store'
 import { createRouter, createWebHistory } from 'vue-router'
 
+
 const routes = [
   {
     path: '/',

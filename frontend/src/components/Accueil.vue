@@ -1,57 +1,61 @@
 <template>
-  <div class="hello">
+  <div class="card">
     <h1>{{ msg }}</h1>
     <p v-if="abonnes == 0">Aucun like pour le moment 😥</p>
     <p v-else-if="abonnes == 1">Une personne aime ce post, c'est super ! 💪</p>
-    <p v-else>{{abonnes}} personnes ont liké 🔥</p>
-    <button @click="subscribe()">Like !</button>
-    <button @click="Seecoms()">Voir les commentaires</button>
+    <p v-else>{{ abonnes }} personnes ont liké 🔥</p>
+    <button class="likebutton" @click="like()">Like !</button>
+    <button class="comsbutton" @click="Seecoms()">Voir les commentaires</button>
     <div class="comment" v-for="(comment, idx) in comments" v-bind:key="idx">
-      <h3>{{comment.nom}}</h3>
-      <p>{{comment.commentaire}}</p>
+      <h3>{{ comment.nom }}</h3>
+      <p>{{ comment.commentaire }}</p>
       <div v-if="comment.note > 1">
-        <span v-for="i in comment.note" v-bind:key="i">🍌</span>
+        <span v-for="i in comment.note" v-bind:key="i">👍</span>
       </div>
-      <span v-else>💩</span>
-    </div>  
+      <span v-else>👎</span>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Fil actualité',
+  name: "Fil actualité",
   props: {
-    msg: String
+    msg: String,
   },
   data: function () {
     return {
       abonnes: 0,
-      comments: [{
-        nom: 'Tristan',
-        commentaire: "C'est de la bombe !",
-        note: 2,
-        },{
-        nom: 'Jean Michel',
-        commentaire: "J'adore ce que tu fais continue !",
-        note: 5},{
-        nom: 'Marc Aigri',
-        commentaire: "C'est nul",
-        note: 1,
-      }]
+      comments: [
+        {
+          nom: "Tristan",
+          commentaire: "C'est de la bombe !",
+          note: 2,
+        },
+        {
+          nom: "Jean Michel",
+          commentaire: "J'adore ce que tu fais continue !",
+          note: 5,
+        },
+        {
+          nom: "Marc Aigri",
+          commentaire: "C'est nul",
+          note: 1,
+        },
+      ],
     }
   },
   methods: {
     // Cette fonction va permettre d'incrémenter le nombre d'abonnés
-    subscribe: function () {
-      this.abonnes++
-    }
-  }
-}
+    like: function () {
+      this.abonnes++;
+    },
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 h3 {
   margin: 40px 0 0;
 }
@@ -68,11 +72,20 @@ a {
 }
 
 p {
-  font-size: 22px
+  font-size: 22px;
+}
+
+.card {
+  max-width: 100%;
+  width: 1200px;
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  margin-top: 1em;
 }
 
 button {
-  background-color: #091F43;
+  background-color: #091f43;
   color: white;
   font-weight: bold;
   padding: 1em;
