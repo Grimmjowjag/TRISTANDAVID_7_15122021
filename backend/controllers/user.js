@@ -13,7 +13,6 @@ exports.signup = (req, res, next) => {
       User.create({
         email: req.body.email,
         password: hash,
-        isAdmin: req.body.admin,
         prenom: req.body.prenom,
         nom: req.body.nom
       })
@@ -58,7 +57,7 @@ exports.login = (req, res, next) => {
 }
 
 exports.getOneUser = (req, res, next) => {
-  User.findOne({ 
+  User.findOne({
     where: { id: req.params.userId },
     attributes: ["id", "nom", "prenom", "email", "isAdmin"]
   })
@@ -74,15 +73,16 @@ exports.getAllUser = (req, res, next) => {
     .catch((error) => { res.status(404).json({ error: error }) })
 }
 
-exports.modifyUser = (req, res, next) => {
-  User.findOne({ where: { id: req.params.userId } })
-    .then(user => {
-      const modUser = Object.assign(user, req.body)
-      modUser.save()
-        .then(() => res.status(200).json({ message: 'Profil modifié !' }))
-        .catch(error => res.status(400).json({ error: error }))
-    }).catch(error => res.status(500).json({ error }))
-}
+// exports.modifyUser = (req, res, next) => {
+//   User.findOne({ where: { id: req.params.userId } })
+//     .then(user => {
+//       const modUser = Object.assign(user, req.body)
+//       modUser.save()
+//         .then(() => res.status(200).json({ message: 'Profil modifié !' }))
+//         .catch(error => res.status(400).json({ error: error }))
+//     })
+//     .catch(error => res.status(500).json({ error }))
+// }
 
 exports.deleteUser = (req, res, next) => {
   User.findOne({ where: { id: req.params.id } })
@@ -91,5 +91,6 @@ exports.deleteUser = (req, res, next) => {
         .then(() => res.status(200).json({ message: 'Profil supprimé !' }))
         .catch(error => res.status(400).json({ error }))
     })
-    .catch(error => res.status(500).json({ error: JSON.stringify(error) }))
+    .catch (error => res.status(500).json({ error: JSON.stringify(error) }))
 }
+
