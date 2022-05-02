@@ -45,7 +45,10 @@ exports.login = (req, res, next) => {
           res.status(200).json({
             userId: user.id,
             token: jwt.sign(
-              { userId: user.id },
+              {
+                userId: user.id,
+                isAdmin: user.isAdmin
+              },
               'RANDOM_TOKEN_SECRET',
               { expiresIn: '24h' }
             )
@@ -87,10 +90,13 @@ exports.getAllUser = (req, res, next) => {
 exports.deleteUser = (req, res, next) => {
   User.findOne({ where: { id: req.params.id } })
     .then(User => {
-      User.destroy({ where: { id: req.params.id } })
-        .then(() => res.status(200).json({ message: 'Profil supprimé !' }))
-        .catch(error => res.status(400).json({ error }))
+      if (req.userAuth.id == req.params.id || req.userAuth.isAdmin) {
+        User.destroy({ where: { id: req.params.id } })
+          .then(() => res.status(200).json({ message: 'Profil supprimé !' }))
+          .catch(error => res.status(400).json({ error }))
+      } else return res.status(401).json({ error: 'Action non autorisée !' })
     })
-    .catch (error => res.status(500).json({ error: JSON.stringify(error) }))
+
+    .catch(error => res.status(500).json({ error: JSON.stringify(error) }))
 }
 
