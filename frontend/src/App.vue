@@ -70,16 +70,19 @@ img {
   padding: 32px;
   margin-top: 1em;
 }
+
 .card__title {
   text-align: center;
   font-weight: 800;
   color: #091F43;
 }
+
 .card__subtitle {
   text-align: center;
   color: #666;
   font-weight: 500;
 }
+
 .button {
   background: #091F43;
   color: white;
@@ -91,21 +94,26 @@ img {
   padding: 16px;
   transition: 0.4s background-color;
 }
+
 .card__action {
   color: #091F43;
   text-decoration: underline;
 }
+
 .card__action:hover {
   cursor: pointer;
 }
+
 .button:hover {
   cursor: pointer;
   background: #D1515A;
 }
+
 .button--disabled {
   background: #cecece;
   color: #ececec;
 }
+
 .button--disabled:hover {
   cursor: not-allowed;
   background: #cecece;

@@ -39,6 +39,7 @@ export default {
       userInfos: "userInfos"
     }),
   },
+
   methods: {
     ...mapActions(["supressProfile"]),
     logout: async function () {

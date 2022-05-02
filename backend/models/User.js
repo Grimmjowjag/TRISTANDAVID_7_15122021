@@ -4,11 +4,6 @@ const { DataTypes } = Sequelize
 
 const User = sequelize.define('user', {
 
-    id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    },
     nom: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -44,14 +39,14 @@ const User = sequelize.define('user', {
 },
     {
         freezeTableName: true, // empêche la pluralisation de mySQL Workbench
-        timestamps: false
+        tableName: "users"
     }
 )
 
 User.associate = function(models) {
-    models.user.hasMany(models.commentModel, {onDelete: 'CASCADE'}),
-    models.user.hasMany(models.postModel, {onDelete: 'CASCADE'}),
-    models.user.hasMany(models.reactionModel, {onDelete: 'CASCADE'})
+    models.User.hasMany(models.Comment, {onDelete: 'CASCADE', onUpdate: 'CASCADE'});
+    models.User.hasMany(models.Post, {onDelete: 'CASCADE', onUpdate: 'CASCADE'});
+    models.User.hasMany(models.Reaction, {onDelete: 'CASCADE', onUpdate: 'CASCADE'});
     }
     
 module.exports = User

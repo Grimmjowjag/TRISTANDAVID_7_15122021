@@ -119,6 +119,7 @@ export default {
     gap:16px;
     flex-wrap: wrap;
 }
+
 .form-row__input {
     padding:8px;
     border: none;

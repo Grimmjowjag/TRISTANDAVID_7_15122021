@@ -4,19 +4,6 @@ const { DataTypes } = require("sequelize")
 // Création du schéma de données sequelize avec les champs requis (ceci va simplifier les opérations de lecture et d'écriture dans la base de données)
   const postModel = sequelize.define("post", {
 
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true
-    },
-    user_id: { 
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references:{
-        model:'user',
-        key:'id'
-      }
-    },
     imageUrl: {
       type: DataTypes.STRING,
       allowNull: true
@@ -29,14 +16,6 @@ const { DataTypes } = require("sequelize")
       type: DataTypes.STRING,
       allowNull: false
     },
-    likes: {
-      type:DataTypes.INTEGER,
-      allowNull: false
-    },
-    dislikes: {
-      type:DataTypes.INTEGER,
-      allowNull: false
-    },
   },
     {
       tableName: "posts",
@@ -45,8 +24,9 @@ const { DataTypes } = require("sequelize")
   )
 
   postModel.associate = function(models) {
-    models.post.belongsTo(models.User, {onDelete: 'CASCADE'}),
-    models.post.hasMany(models.reactionModel, {onDelete: 'CASCADE'})
+    models.Post.belongsTo(models.User);
+    models.Post.hasMany(models.Reaction, {onDelete: 'CASCADE', onUpdate: 'CASCADE'});
+    models.Post.hasMany(models.Comment, {onDelete: 'CASCADE', onUpdate: 'CASCADE'});
     }
 
 module.exports = postModel

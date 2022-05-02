@@ -2,7 +2,8 @@
 
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const User = require('../models/User')
+
+const { User } = require('../models')
 
 // Enregistrement de nouveaux utilisateurs
 exports.signup = (req, res, next) => {
@@ -96,7 +97,6 @@ exports.deleteUser = (req, res, next) => {
           .catch(error => res.status(400).json({ error }))
       } else return res.status(401).json({ error: 'Action non autorisée !' })
     })
-
     .catch(error => res.status(500).json({ error: JSON.stringify(error) }))
 }
 
