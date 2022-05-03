@@ -77,20 +77,22 @@ exports.getAllUser = (req, res, next) => {
     .catch((error) => { res.status(404).json({ error: error }) })
 }
 
-// exports.modifyUser = (req, res, next) => {
-//   User.findOne({ where: { id: req.params.userId } })
-//     .then(user => {
-//       const modUser = Object.assign(user, req.body)
-//       modUser.save()
-//         .then(() => res.status(200).json({ message: 'Profil modifié !' }))
-//         .catch(error => res.status(400).json({ error: error }))
-//     })
-//     .catch(error => res.status(500).json({ error }))
-// }
+exports.modifyUser = (req, res, next) => {
+  User.findOne({ where: { id: req.params.userId } })
+    .then(user => {
+      // Object.assign permet de ne copier que les propriétés qui ne sont pas héritées depuis un objet source vers un objet cible
+      const modUser = Object.assign(user, req.body)
+      modUser.save()
+        .then(() => res.status(200).json({ message: 'Profil modifié !' }))
+        .catch(error => res.status(400).json({ error: error }))
+    })
+    .catch(error => res.status(500).json({ error }))
+}
 
 exports.deleteUser = (req, res, next) => {
   User.findOne({ where: { id: req.params.id } })
     .then(User => {
+      // isAdmin permet de vérifier si l'utilisateur dispose des droits requis
       if (req.userAuth.id == req.params.id || req.userAuth.isAdmin) {
         User.destroy({ where: { id: req.params.id } })
           .then(() => res.status(200).json({ message: 'Profil supprimé !' }))

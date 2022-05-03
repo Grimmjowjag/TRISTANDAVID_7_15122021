@@ -11,17 +11,9 @@ exports.createreaction = (req, res, next) => {
 
 exports.ReactionPost = (req, res, next) => {
     const postId = parseInt(req.params.postId)
-
     if (postId <= 0) {
         return res.status(400).json({ error: error })
     }
-
-}
-
-exports.getOnereaction = (req, res, next) => {
-    Reaction.findOne({ where: { id: req.params.postId } })
-        .then((reaction) => { res.status(200).json(reaction) })
-        .catch((error) => { res.status(404).json({ error: error }) })
 }
 
 exports.getAllreaction = (req, res, next) => {
@@ -40,4 +32,3 @@ exports.deletereaction = (req, res, next) => {
         .catch(error => res.status(500).json({ error: JSON.stringify(error) }))
 }
 
-exports.updatereaction = (req, res, next) => { }
