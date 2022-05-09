@@ -2,7 +2,8 @@
   <div>
     <nav>
       <router-link to="/home">Accueil</router-link> |
-      <router-link to="/profile">Profil</router-link>
+      <router-link to="/profile">Profil</router-link> |
+      <router-link to="/allprofile">Utilisateurs</router-link>
     </nav>
     <router-view />
   </div>
@@ -59,6 +60,8 @@ body {
 
 img {
   max-width: 100%;
+  background-size: cover;
+  background-position: center;
   border-radius: 8px;
 }
 

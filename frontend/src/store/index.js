@@ -48,12 +48,11 @@ const store = createStore({
       username: '',
       title: '',
       description: '',
-      likes: '',
-      dislikes: ''
+      likes: ''
     },
 
-    likeInfos: {
-      likes: '',
+    reactionInfos: {
+      reactions: '',
     },
 
     commentInfos: {
@@ -87,8 +86,8 @@ const store = createStore({
     postsInfos: function (state, postsInfos) {
       state.postsInfos = postsInfos
     },
-    likeInfos: function (state, likeInfos) {
-      state.likeInfos = likeInfos
+    reactionInfos: function (state, reactionInfos) {
+      state.reactionInfos = reactionInfos
     },
     commentInfos: function (state, commentInfos) {
       state.commentInfos = commentInfos
@@ -143,6 +142,20 @@ const store = createStore({
       })
     },
 
+    getAllUsers: ({ commit }) => {
+      return new Promise((resolve, reject) => {
+        instance.get('/auth/')
+          .then((response) => {
+            commit(response.data)
+            resolve(response)
+          })
+          .catch((error) => {
+            console.error(error),
+              reject(error)
+          })
+      })
+    },
+
     supressProfile: ({ commit }, id) => {
       return new Promise((resolve, reject) => {
         instance.delete('/auth/' + id)
@@ -171,6 +184,20 @@ const store = createStore({
       })
     },
 
+    getAllPosts: ({ commit }) => {
+      return new Promise((resolve, reject) => {
+        instance.get('/posts')
+          .then((response) => {
+            commit('postsInfos', response.data)
+            resolve(response)
+          })
+          .catch((error) => {
+            console.error(error),
+              reject(error)
+          })
+      })
+    },
+
     deletePost: ({ commit }, data) => {
       return new Promise((resolve, reject) => {
         instance.delete('/posts/' + data.postid)
@@ -185,11 +212,11 @@ const store = createStore({
       })
     },
 
-    postLikes: ({ commit }, postid) => {
+    postReaction: ({ commit }, postid) => {
       return new Promise((resolve, reject) => {
-        instance.post('/posts/' + postid + '/like')
+        instance.post('/posts/' + postid + '/reaction')
           .then((response) => {
-            commit('likeInfos', response.data)
+            commit('reactionInfos', response.data)
             resolve(response.data)
           })
           .catch((error) => {

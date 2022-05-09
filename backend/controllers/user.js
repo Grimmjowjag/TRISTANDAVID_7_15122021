@@ -27,7 +27,12 @@ exports.signup = (req, res, next) => {
 // Connection des utilisateurs existants
 exports.login = (req, res, next) => {
   // On essaie de trouver un seul utilisateur de la base de donnée
-  console.log(req.body.email)
+  if (!req.body.email) {
+    return res.status(400).json({ error :'Veuillez renseigner un email'})
+  }
+  if (!req.body.password) {
+    return res.status(400).json({ error :'Veuillez renseigner un mot de passe'})
+  }
   User.findOne({ where: { email: req.body.email } })
     .then(user => {
       if (!user) {
@@ -57,7 +62,7 @@ exports.login = (req, res, next) => {
         })
         .catch(error => res.status(500).json({ error }))
     })
-    .catch(error => res.status(500).json({ error }))
+  .catch(error => res.status(500).json({ error }))
 }
 
 exports.getOneUser = (req, res, next) => {

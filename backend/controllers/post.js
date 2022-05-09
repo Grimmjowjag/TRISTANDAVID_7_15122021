@@ -8,7 +8,7 @@ exports.createPost = (req, res, next) => {
   Post.create({
     title: req.body.title,
     description: req.body.description,
-    user_id: req.userAuth.id,
+    userId: req.userAuth.id,
     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
     likes: 0,
     dislikes: 0
