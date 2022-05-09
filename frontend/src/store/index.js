@@ -172,7 +172,7 @@ const store = createStore({
 
     createPost: ({ commit }, data) => {
       return new Promise((resolve, reject) => {
-        instance.post('/posts', data)
+        instance.post('/post', data)
           .then((response) => {
             commit('setStatus', 'created')
             resolve(response.data)
@@ -186,7 +186,7 @@ const store = createStore({
 
     getAllPosts: ({ commit }) => {
       return new Promise((resolve, reject) => {
-        instance.get('/posts')
+        instance.get('/post')
           .then((response) => {
             commit('postsInfos', response.data)
             resolve(response)
@@ -200,7 +200,7 @@ const store = createStore({
 
     deletePost: ({ commit }, data) => {
       return new Promise((resolve, reject) => {
-        instance.delete('/posts/' + data.postid)
+        instance.delete('/post/' + data.postid)
           .then((response) => {
             commit('postsInfos', response.data)
             resolve(response.data)
@@ -214,7 +214,7 @@ const store = createStore({
 
     postReaction: ({ commit }, postid) => {
       return new Promise((resolve, reject) => {
-        instance.post('/posts/' + postid + '/reaction')
+        instance.post('/post/' + postid + '/reaction')
           .then((response) => {
             commit('reactionInfos', response.data)
             resolve(response.data)

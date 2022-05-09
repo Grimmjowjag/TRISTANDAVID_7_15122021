@@ -8,7 +8,7 @@
           <h2>Nouvelle publication :</h2>
           <input v-model="title" type="text" class="form-row-input" placeholder="Titre"/>
             <div class="form-row">
-              <textarea v-model="content" class="form-row" cols="30" rows="5"/>
+              <textarea v-model="description" class="form-row" cols="30" rows="5"/>
               <input class="postSource" name="source" type="file" accept="image/jpg, image/jpeg, image/png, image/webp, image/gif, video/x-msvideo, video/mp4, video/mpeg, video/ogg, video/mp2t, video/webm, video/3gpp , video/3gpp2">
             </div>
           <button @click="addPost()" id="Post">Ajouter une publication</button>
@@ -28,16 +28,13 @@
     </div>
   </div>
 </template>
-    <!-- <p v-if="abonnes == 0">Aucun like pour le moment 😥</p>
-    <p v-else-if="abonnes == 1">Une personne aime ce post, c'est super ! 💪</p>
-    <p v-else>{{ abonnes }} personnes ont liké 🔥</p>
-    <button class="likebutton" @click="like()">Like !</button> -->
+
 <script>
 
 import { mapActions, mapState } from "vuex"
 
 export default {
-  name: "Fil actualité",
+  name: "Posts",
   props: {
     msg: String,
   },
@@ -58,23 +55,7 @@ export default {
     },
 
       abonnes: 0,
-      comments: [
-        {
-          nom: "Tristan",
-          commentaire: "C'est de la bombe !",
-          note: 2,
-        },
-        {
-          nom: "Jean Michel",
-          commentaire: "J'adore ce que tu fais continue !",
-          note: 5,
-        },
-        {
-          nom: "Marc Aigri",
-          commentaire: "C'est nul",
-          note: 1,
-        },
-      ],
+   
     }
   },
 
@@ -90,23 +71,29 @@ export default {
       try {
         const source = document.querySelector('.postSource').files[0]
         const postSource = new FormData()
-        postSource.append('source', source)
+        postSource.append('image', source)
         postSource.append('title', this.title)
-        postSource.append('content', this.content)
+        postSource.append('description', this.description)
         await this.createPost(postSource)
-        await this.$router.go()
+        this.$router.go()
       }
       catch (error) {
         console.log(error)
       }
     },
-
-    like: function () {
-      this.abonnes++;
+    async delPost(postid) {
+      try {
+        const data = await this.deletePost({postid})
+        delete this.posts.find(el => el.id === postid)
+        this.$router.go()
+      }
+      catch (error) {
+        console.error(error)
+      }
     },
-    ...mapActions(['getAllPosts', 'createPost', 'deletePost'])
+    ...mapActions(['getAllPosts', 'createPost', 'deletePost', 'postReaction', 'getPostComment', 'deleteComment'])
   },
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

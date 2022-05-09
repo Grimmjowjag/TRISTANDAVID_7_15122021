@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <img id="logo" alt="Vue logo" src="../assets/icon-left-font-monochrome-black.png">
-    <Accueil msg="Fil d'actualité Groupomania"/>
+    <Accueil msg="Posts Groupomania"/>
   </div>
 </template>
 
