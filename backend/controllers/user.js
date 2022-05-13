@@ -6,9 +6,24 @@ const jwt = require('jsonwebtoken')
 const { User } = require('../models')
 
 // Enregistrement de nouveaux utilisateurs
+
+// exports.findOne = async (req, res) => {
+//   if (Number.isNaN(Number(req.params.id)))
+//     return res.status(400).json({ error: "Veuillez renseigner un user id valide" })
+
+//   const user = await User.findOne({ where: { id: req.params.id } })
+//     .catch((error) => res.status(500).json({ error }))
+
+//   if (user === null)
+//     return res.status(404).json({ error: "Utilisateur introuvable" })
+  
+//   return res.status(200).json({ user })
+// }
+
 exports.signup = (req, res, next) => {
   console.log(req.body.password)
-  bcrypt.hash(req.body.password, 10)
+  bcrypt
+    .hash(req.body.password, 10)
     .then(hash => {
       // Création du nouvel utilisateur avec un email, un username et un mot de passe crypté
       User.create({
@@ -36,7 +51,7 @@ exports.login = (req, res, next) => {
   User.findOne({ where: { email: req.body.email } })
     .then(user => {
       if (!user) {
-        return res.status(401).json({ error: 'Utilisateur non trouvé !' })
+        return res.status(404).json({ error: 'Utilisateur non trouvé !' })
       }
       // On compare le mot de passe envoyé avec la requête du "hash" enregistré dans notre doc user
       console.log(user.password)
@@ -70,38 +85,48 @@ exports.getOneUser = (req, res, next) => {
     where: { id: req.params.userId },
     attributes: ["id", "nom", "prenom", "email", "isAdmin"]
   })
-  .catch((error) => { res.status(404).json({ error: error }) })
-    .then((user) => { res.status(200).json(user) })
+  .catch((error) => { res.status(500).json({ error: error }) })
+  .then((user) => { 
+    if (!user) {
+      return res.status(404).json({ error :'Utilisateur introuvable'})
+    } 
+    else res.status(200).json(user) })
 }
 
 exports.getAllUser = (req, res, next) => {
   User.findAll({
     attributes: ["id", "nom", "prenom", "email", "isAdmin"]
   })
-    .then((user) => { res.status(200).json(user) })
-    .catch((error) => { res.status(404).json({ error: error }) })
+  .catch((error) => { res.status(500).json({ error: error }) })
+  .then((user) => { res.status(200).json(user) })
 }
 
 exports.modifyUser = (req, res, next) => {
   User.findOne({ where: { id: req.params.userId } })
     .then(user => {
+      if (!user) {
+        return res.status(404).json({ error :'Utilisateur introuvable'})
+      }
       // Object.assign permet de ne copier que les propriétés qui ne sont pas héritées depuis un objet source vers un objet cible
       const modUser = Object.assign(user, req.body)
       modUser.save()
-        .then(() => res.status(200).json({ message: 'Profil modifié !' }))
         .catch(error => res.status(400).json({ error: error }))
+        .then(() => res.status(200).json({ message: 'Profil modifié !' }))
     })
     .catch(error => res.status(500).json({ error }))
 }
 
 exports.deleteUser = (req, res, next) => {
   User.findOne({ where: { id: req.params.id } })
-    .then(User => {
+    .then(user => {
+      if (!user) {
+        return res.status(404).json({ error :'Utilisateur introuvable'})
+      }
       // isAdmin permet de vérifier si l'utilisateur dispose des droits requis
       if (req.userAuth.id == req.params.id || req.userAuth.isAdmin) {
         User.destroy({ where: { id: req.params.id } })
-          .then(() => res.status(200).json({ message: 'Profil supprimé !' }))
           .catch(error => res.status(400).json({ error }))
+          .then(() => res.status(200).json({ message: 'Profil supprimé !' }))
       } else return res.status(401).json({ error: 'Action non autorisée !' })
     })
     .catch(error => res.status(500).json({ error: JSON.stringify(error) }))

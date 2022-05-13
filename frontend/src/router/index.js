@@ -25,6 +25,22 @@ const routes = [
       }
     },
     meta: {
+      title: 'Posts'
+    }
+  },
+
+  {
+    path: '/feed',
+    name: 'Feed',
+    component: () => import(/* webpackChunkName: "home" */ '../views/FeedView.vue'),
+    beforeEnter: (to, from, next) => {
+      if(store.state.user.userId == -1) {
+        next("/")
+      } else {
+        next()
+      }
+    },
+    meta: {
       title: 'Fil actualité'
     }
   },
@@ -33,6 +49,13 @@ const routes = [
     path: '/posts',
     name: 'Posts',
     component: () => import(/* webpackChunkName: "login" */ '../views/HomeView.vue'),
+    beforeEnter: (to, from, next) => {
+      if(store.state.user.userId == -1) {
+        next("/")
+      } else {
+        next()
+      }
+    },
     meta: {
       title: 'Posts'
     }
@@ -68,6 +91,13 @@ const routes = [
     path: '/profile/all',
     name: 'allProfile',
     component: () => import(/* webpackChunkName: "login" */ '../views/LoginView.vue'),
+    beforeEnter: (to, from, next) => {
+      if(store.state.user.userId.isAdmin == -1) {
+        next("/")
+      } else {
+        next()
+      }
+    },
     meta: {
       title: 'Tous les utilisateurs'
     }

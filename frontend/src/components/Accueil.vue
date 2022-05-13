@@ -71,7 +71,7 @@ export default {
       try {
         const source = document.querySelector('.postSource').files[0]
         const postSource = new FormData()
-        postSource.append('image', source)
+        postSource.append('imageUrl', source)
         postSource.append('title', this.title)
         postSource.append('description', this.description)
         await this.createPost(postSource)
