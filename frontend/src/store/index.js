@@ -200,7 +200,7 @@ const store = createStore({
 
     deletePost: ({ commit }, data) => {
       return new Promise((resolve, reject) => {
-        instance.delete('/post/' + data.postid)
+        instance.delete('/post' + data.postid)
           .then((response) => {
             commit('postsInfos', response.data)
             resolve(response.data)

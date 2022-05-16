@@ -7,19 +7,6 @@ const { User } = require('../models')
 
 // Enregistrement de nouveaux utilisateurs
 
-// exports.findOne = async (req, res) => {
-//   if (Number.isNaN(Number(req.params.id)))
-//     return res.status(400).json({ error: "Veuillez renseigner un user id valide" })
-
-//   const user = await User.findOne({ where: { id: req.params.id } })
-//     .catch((error) => res.status(500).json({ error }))
-
-//   if (user === null)
-//     return res.status(404).json({ error: "Utilisateur introuvable" })
-  
-//   return res.status(200).json({ user })
-// }
-
 exports.signup = (req, res, next) => {
   console.log(req.body.password)
   bcrypt
