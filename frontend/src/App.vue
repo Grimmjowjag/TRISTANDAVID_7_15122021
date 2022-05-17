@@ -3,7 +3,8 @@
     <nav>
       <router-link to="/home">Posts</router-link> |
       <router-link to="/profile">Profil</router-link> |
-      <router-link to="/allprofile">Utilisateurs</router-link>
+      <router-link to="/allprofile">Utilisateurs</router-link> 
+      
     </nav>
     <router-view />
   </div>
@@ -32,7 +33,7 @@ export default {
 nav {
   color: white;
   font-weight: 800;
-  font-size: 15px;
+  font-size: 18px;
 }
 
 a {

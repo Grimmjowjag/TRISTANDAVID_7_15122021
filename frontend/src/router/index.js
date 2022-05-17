@@ -14,7 +14,7 @@ const routes = [
 
   {
     path: '/home',
-    name: 'Home',
+    name: 'Posts',
     component: () => import(/* webpackChunkName: "home" */ '../views/HomeView.vue'),
     // Le naviguation guard empêche l'accès aux pages sans authentification
     beforeEnter: (to, from, next) => {
@@ -29,37 +29,21 @@ const routes = [
     }
   },
 
-  {
-    path: '/feed',
-    name: 'Feed',
-    component: () => import(/* webpackChunkName: "home" */ '../views/FeedView.vue'),
-    beforeEnter: (to, from, next) => {
-      if(store.state.user.userId == -1) {
-        next("/")
-      } else {
-        next()
-      }
-    },
-    meta: {
-      title: 'Fil actualité'
-    }
-  },
-
-  {
-    path: '/posts',
-    name: 'Posts',
-    component: () => import(/* webpackChunkName: "login" */ '../views/HomeView.vue'),
-    beforeEnter: (to, from, next) => {
-      if(store.state.user.userId == -1) {
-        next("/")
-      } else {
-        next()
-      }
-    },
-    meta: {
-      title: 'Posts'
-    }
-  },
+  // {
+  //   path: '/posts',
+  //   name: 'Feed',
+  //   component: () => import(/* webpackChunkName: "login" */ '../views/Actuality.vue'),
+  //   beforeEnter: (to, from, next) => {
+  //     if(store.state.user.userId == -1) {
+  //       next("/")
+  //     } else {
+  //       next()
+  //     }
+  //   },
+  //   meta: {
+  //     title: 'Feed'
+  //   }
+  // },
 
   {
     path: '/comment/:postId',
