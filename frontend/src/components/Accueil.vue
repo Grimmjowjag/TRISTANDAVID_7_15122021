@@ -15,9 +15,9 @@
 
         <div class="card_newPost" v-for="post of posts" :key="post.id">
           <div id="title">
-            <h1>{{post.title}}</h1>
+            <h1>{{post.title}}</h1> 
             <h3>{{post.description}}</h3>
-            <h2><span v-if="user.isAdmin || user.id == post.UserId" @clic="delPost(post.id)" class="button">Supprimer 🗑️</span></h2>
+            <h2><span v-if="user.isAdmin || user.id == post.UserId" @click="delPost(post.id)" class="button">Supprimer 🗑️</span></h2>
           </div>
 
           <div id="content">
@@ -25,29 +25,26 @@
             <div v-if="post.imageUrl">
               <img v-if="['jpg','png','gif','webp'].includes(post.imageUrl.split('.').pop())" :src="post.imageUrl"/>
             </div>
+            <p>{{ post.createdAt }}</p>
+            <button @click="addCom(post.id)">Ajouter un commentaire</button>
           </div>
+
 
           <div id="comments" v-for="comment of comments[post.id]" :key="comment.id">
-
+            <h3>{{ comment.User }} <span v-if="user.isAdmin || user.id == comment.UserId" @click="delCom(post.id, comment.id)" class="button">Supprimer com</span></h3>
+            <p>{{ comment.description }}</p>
           </div>
         </div>
-
-        <div class="comments" v-for="(comment, idx) in comments" v-bind:key="idx">
-          <h3>{{ comment.nom }}</h3>
-          <p>{{ comment.commentaire }}</p>
-          <div v-if="comment.note > 1">
-          <span v-for="i in comment.note" v-bind:key="i">👍</span>
-        </div>
-        <span v-else>👎</span>
       </div>
     </div>
-      <button @click="addCom(post.id)">Ajouter un commentaire</button>
-    </div>
   </div>
+  
 </template>
 
 <script>
 import { mapActions, mapState } from "vuex";
+import moment from "moment"
+moment.locale("fr")
 
 export default {
   name: "Posts",
@@ -69,6 +66,9 @@ export default {
       return;
     }
     const postsInfos = await this.getAllPosts();
+      postsInfos.data.forEach(post => { 
+        post.createdAt = moment(post.createdAt).format('MMMM Do YYYY, HH:mm:ss')
+       })
       this.posts = postsInfos.data
     },
 
@@ -80,12 +80,22 @@ export default {
   },
 
   methods: {
+
+    // async addCom(postid) {
+    //   try {
+    //     await this.createComment({
+
+    //       content: this.content 
+    //     })
+    //   }
+    // },
+
     async comment(postid) {
       try {
         const data = await this.getPostComment(postid);
         this.comments[postid] = data.comment;
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     },
 
@@ -109,19 +119,15 @@ export default {
     },
 
     async delPost(postid) {
-      try {
-        await this.$store.dispatch("deletePost", postid)
-        localStorage.clear()
-        const res = await this.deletePost()
-        this.post = res.data
-      } catch (error) {
-        console.error(error)
-      }
+      console.log(postid);
+      await this.$store.dispatch("deletePost", postid)
+      const postsInfos = await this.getAllPosts();
+      this.posts = postsInfos.data
     },
 
-    ...mapActions(["getAllPosts","createPost","deletePost","postReaction","getPostComment","deleteComment"]),
+    ...mapActions(["getAllPosts","createPost","deletePost","postReaction","getPostComment", "createComment","deleteComment"]),
   },
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -148,7 +154,8 @@ h3 {
 
 p {
   font-size: 22px;
-  overflow-wrap: break-word;
+  background-color: #d7d7d7;
+  /* width: 30%; */
 }
 
 img, video {
@@ -157,14 +164,12 @@ img, video {
 
 #title {
   width: 99%;
-  display: flex;
+  display: inline-flex;
   justify-content: space-between;
-  padding-left: 2%;
-  padding-right: 2%;
 }
 
-#content {
-  max-width: 95%;
+#comments {
+  width: 300px;
 }
 
 .card {
@@ -180,13 +185,13 @@ img, video {
 
 .card_Post {
   max-width: 100%;
-  width: 70%;
+  width: 80%;
+  box-sizing: border-box;
   margin: auto;
   background: #d7d7d7;
   border-radius: 16px;
   padding: 32px;
 }
-
 
 .card_newPost {
   max-width: 100%;
@@ -216,15 +221,6 @@ input {
   background: whitesmoke;
   height: 22px;
   width: 25%;
-}
-
-.comments {
-  width: 300px;
-  margin: auto;
-  background: rgb(38, 109, 232);
-  border-radius: 16px;
-  padding: 15px;
-  margin-top: 1em;
 }
 
 button {

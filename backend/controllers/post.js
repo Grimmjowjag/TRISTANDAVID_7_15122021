@@ -19,7 +19,7 @@ exports.createPost = (req, res, next) => {
 
 // Récupération de l'id de l'objet grâce à "find()" pour trouver le "Post" ayant le même "_id" que le paramètre de la requête
 exports.getOnePost = (req, res, next) => {
-  Post.findOne({ where: { id: req.params.postId } })
+  Post.findOne({ where: { id: req.params.postId }, order: [[ 'id', 'DESC' ]] })
     .catch((error) => { res.status(500).json({ error: error }) })
     .then((post) => {
       if (!post) {

@@ -174,6 +174,7 @@ const store = createStore({
       return new Promise((resolve, reject) => {
         instance.post('/post', data)
           .then((response) => {
+            alert(response.data.message)
             commit('setStatus', 'created')
             resolve(response.data)
           })
@@ -200,11 +201,11 @@ const store = createStore({
 
     deletePost: ({ commit }, postid) => {
       return new Promise((resolve, reject) => {
-        instance.delete('/post' + postid)
+        instance.delete('/post/' + postid)
           .then((response) => {
-            commit('setStatus', 'deleted')
+            alert(response.data.message)
             resolve(response)
-          }) 
+          })
           .catch((error) => {
             console.error(error),
               reject(error)
