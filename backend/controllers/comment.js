@@ -3,6 +3,8 @@
 const { Comment, Post } = require('../models/')
 
 exports.createComment = (req, res, next) => {
+  if (!req.body.description || req.body.description == "")
+    return res.status(400).json({error: 'Le commentaire ne peut pas être vide'})
   Post.findOne({ where: { id: req.params.id } })
     .then((Post) => {
       if (!Post) {
@@ -13,16 +15,22 @@ exports.createComment = (req, res, next) => {
         userId: req.userAuth.id,
         postId: req.params.id
       })
-        .catch(error => res.status(500).json({ error }))
-        .then(() => res.status(201).json({ message: 'Commentaire créé !' }))
+      .then(() => res.status(201).json({ message: 'Commentaire créé !' }))
+      .catch(error => res.status(500).json({ error }))
     })
     .catch(error => res.status(500).json({ error }))
 }
 
 exports.getAllComments = (req, res, next) => {
   Comment.findAll()
-    .catch((error) => { res.status(500).json({ error: error }) })
     .then((comment) => { res.status(200).json(comment) })
+    .catch((error) => { res.status(500).json({ error: error }) })
+}
+
+exports.getPostComment = (req, res, next) => {
+  Comment.findAll({ where: { postId: req.params.id } })
+  .then((comment) => { res.status(200).json(comment) })
+  .catch((error) => { res.status(500).json({ error: error }) })
 }
 
 exports.deleteComment = (req, res, next) => {
