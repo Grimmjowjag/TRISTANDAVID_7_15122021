@@ -29,22 +29,6 @@ const routes = [
     }
   },
 
-  // {
-  //   path: '/posts',
-  //   name: 'Feed',
-  //   component: () => import(/* webpackChunkName: "login" */ '../views/Actuality.vue'),
-  //   beforeEnter: (to, from, next) => {
-  //     if(store.state.user.userId == -1) {
-  //       next("/")
-  //     } else {
-  //       next()
-  //     }
-  //   },
-  //   meta: {
-  //     title: 'Feed'
-  //   }
-  // },
-
   {
     path: '/comment/:postId',
     name: 'Comment',
@@ -72,9 +56,9 @@ const routes = [
   },
 
   {
-    path: '/profile/all',
-    name: 'allProfile',
-    component: () => import(/* webpackChunkName: "login" */ '../views/LoginView.vue'),
+    path: '/allProfile',
+    name: 'Utilisateurs',
+    component: () => import(/* webpackChunkName: "login" */ '../views/AllProfileView.vue'),
     beforeEnter: (to, from, next) => {
       if(store.state.user.userId.isAdmin == -1) {
         next("/")
@@ -83,7 +67,7 @@ const routes = [
       }
     },
     meta: {
-      title: 'Tous les utilisateurs'
+      title: 'Utilisateurs'
     }
   },
 

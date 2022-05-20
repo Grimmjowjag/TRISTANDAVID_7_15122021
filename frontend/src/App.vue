@@ -3,7 +3,7 @@
     <nav>
       <router-link to="/home">Posts</router-link> |
       <router-link to="/profile">Profil</router-link> |
-      <router-link to="/allprofile">Utilisateurs</router-link> 
+      <router-link to="/allProfile">Utilisateurs</router-link>
       
     </nav>
     <router-view />

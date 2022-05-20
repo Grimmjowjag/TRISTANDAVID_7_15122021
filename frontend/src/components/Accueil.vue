@@ -1,7 +1,7 @@
 <template>
   <div class="card">
-    <h1>{{ msg }}</h1>
     <div class="card_Post">
+    <h1>{{ msg }}</h1>
       <div>
         <div class="card_newPost">
           <h2>Nouvelle publication :</h2>
@@ -13,7 +13,7 @@
           <button @click="addPost()" id="Post">Ajouter une publication</button>
         </div>
 
-        <div class="card_newPost" v-for="post of posts" :key="post.id">
+        <div class="card_newPost" v-for="post in posts" :key="post.id">
           <div id="title">
             <h1>{{post.title}}</h1> 
             <h3>{{post.description}}</h3>
@@ -26,13 +26,16 @@
               <img v-if="['jpg','png','gif','webp'].includes(post.imageUrl.split('.').pop())" :src="post.imageUrl"/>
             </div>
             <p>{{ post.createdAt }}</p>
-            <button @click="addCom(post.id)">Ajouter un commentaire</button>
-          </div>
 
+            <div class="comments">
+              <input v-model="commentaire" type="text" class="form-row-input" placeholder="Commentaire"/>
+              <button @click="addCom(post.id)">Ajouter un commentaire</button>
+            </div>
 
-          <div id="comments" v-for="comment of comments[post.id]" :key="comment.id">
-            <h3>{{ comment.User }} <span v-if="user.isAdmin || user.id == comment.UserId" @click="delCom(post.id, comment.id)" class="button">Supprimer com</span></h3>
-            <p>{{ comment.description }}</p>
+            <div id="Coms" v-for="comment in post.comments" :key="comment.id">
+              <p>{{ comment.description }}</p>
+              <span v-if="user.isAdmin || user.id == comment.UserId" @click="delCom(comment.id)" class="button">Supprimer com</span>
+            </div>
           </div>
         </div>
       </div>
@@ -43,8 +46,6 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-import moment from "moment"
-moment.locale("fr")
 
 export default {
   name: "Posts",
@@ -55,22 +56,21 @@ export default {
     return {
       posts: [],
       comments: {},
+      commentaire:"",
       title: "",
       description: "",
     }
   },
 
+  // Mounted permet d'accéder au DOM et au HTML présent dans le template
   async mounted() {
     if (!this.user.token) {
       this.$router.push("/");
       return;
     }
-    const postsInfos = await this.getAllPosts();
-      postsInfos.data.forEach(post => { 
-        post.createdAt = moment(post.createdAt).format('MMMM Do YYYY, HH:mm:ss')
-       })
-      this.posts = postsInfos.data
-    },
+    const postsInfos = await this.getAllPosts()
+    this.posts = postsInfos
+  },
 
   computed: {
     ...mapState({
@@ -81,14 +81,43 @@ export default {
 
   methods: {
 
-    // async addCom(postid) {
-    //   try {
-    //     await this.createComment({
+    async addPost() {
+      try {
+        const source = document.querySelector(".postSource").files[0];
+        // FormData sera rempli avec les clés/valeurs du formulaire en utilisant les noms de propriétés 
+        // de chaque élément pour clé et les valeurs soumises. Cela encodera aussi le contenu des fichiers
+        const postSource = new FormData();
+        postSource.append("imageUrl", source);
+        postSource.append("title", this.title);
+        postSource.append("description", this.description);
+        await this.createPost(postSource);
+        const res = await this.getAllPosts()
+        this.posts = res
+      } catch (error) {
+        console.log(error)
+      }
+    },
 
-    //       content: this.content 
-    //     })
-    //   }
-    // },
+    async delPost(postid) {
+      await this.$store.dispatch("deletePost", postid)
+      const postsInfos = await this.getAllPosts()
+      this.posts = postsInfos
+    },
+
+    async addCom(postId) {
+      if (this.commentaire == "")
+      return
+      try {
+        await this.createComment({
+          postId,
+          description: this.commentaire
+        })
+        const res = await this.getAllPosts()
+        this.posts = res
+      } catch (error) {
+        console.log(error)
+      }
+    },
 
     async comment(postid) {
       try {
@@ -99,30 +128,10 @@ export default {
       }
     },
 
-    addCom(postid) {
-      this.$router.push("/comment/" + postid);
-    },
-
-    async addPost() {
-      try {
-        const source = document.querySelector(".postSource").files[0];
-        const postSource = new FormData();
-        postSource.append("imageUrl", source);
-        postSource.append("title", this.title);
-        postSource.append("description", this.description);
-        await this.createPost(postSource);
-        const res = await this.getAllPosts()
-        this.posts = res.data
-      } catch (error) {
-        console.log(error);
-      }
-    },
-
-    async delPost(postid) {
-      console.log(postid);
-      await this.$store.dispatch("deletePost", postid)
-      const postsInfos = await this.getAllPosts();
-      this.posts = postsInfos.data
+    async delCom(commentId) {
+      await this.$store.dispatch("deleteComment", commentId)
+      const commentInfos = await this.getPostComment()
+      this.comments= commentInfos
     },
 
     ...mapActions(["getAllPosts","createPost","deletePost","postReaction","getPostComment", "createComment","deleteComment"]),
@@ -154,12 +163,10 @@ h3 {
 
 p {
   font-size: 22px;
-  background-color: #d7d7d7;
-  /* width: 30%; */
 }
 
 img, video {
-  max-width: 95%;
+  max-width: 100%;
 }
 
 #title {
@@ -168,8 +175,14 @@ img, video {
   justify-content: space-between;
 }
 
-#comments {
-  width: 300px;
+#Coms {
+  background-color: #d7d7d7;
+  border-radius: 1em;
+}
+
+.comments {
+  background-color: #d7d7d7;
+  border-radius: 1em;
 }
 
 .card {
@@ -197,7 +210,7 @@ img, video {
   max-width: 100%;
   background: white;
   border-radius: 16px;
-  padding: 32px;
+  padding: 20px;
   margin: 1em;
 }
 

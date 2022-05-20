@@ -4,6 +4,8 @@ import { createStore } from 'vuex'
 // Vuex est une bibliothèque de gestion d'état pour les applications Vue. js. Au centre de chaque application Vuex se trouve un "store", qui est essentiellement un objet contenant l'état de l'application.
 
 const axios = require('axios')
+import moment from "moment"
+moment.locale("fr")
 
 const instance = axios.create({
   baseURL: 'http://localhost:3000/api',
@@ -44,12 +46,7 @@ const store = createStore({
       username: ''
     },
 
-    postsInfos: {
-      username: '',
-      title: '',
-      description: '',
-      likes: ''
-    },
+    postsInfos: [],
 
     reactionInfos: {
       reactions: '',
@@ -57,7 +54,7 @@ const store = createStore({
 
     commentInfos: {
       description: '',
-      postid: ''
+      postId: ''
     }
 
   },
@@ -83,8 +80,8 @@ const store = createStore({
       }
       localStorage.removeItem('user')
     },
-    postsInfos: function (state, postsInfos) {
-      state.postsInfos = postsInfos
+    addPost: function (state, post) {
+      state.postsInfos.push(post)
     },
     reactionInfos: function (state, reactionInfos) {
       state.reactionInfos = reactionInfos
@@ -185,16 +182,22 @@ const store = createStore({
       })
     },
 
-    getAllPosts: ({ commit }) => {
+    getAllPosts: ({ commit, dispatch }) => {
       return new Promise((resolve, reject) => {
         instance.get('/post')
-          .then((response) => {
-            commit('postsInfos', response.data)
-            resolve(response)
+          .then(async (response) => {
+            const posts = response.data
+            for(const post of posts){
+              post.createdAt = moment(post.createdAt).format(' Do MMMM YYYY, HH:mm:ss')
+              const comments = await dispatch("getPostComment", post.id)
+              post.comments = comments
+              commit('addPost', post)
+            }
+            resolve(posts)
           })
           .catch((error) => {
-            console.error(error),
-              reject(error)
+            console.error(error)
+            reject(error)
           })
       })
     },
@@ -241,10 +244,11 @@ const store = createStore({
       })
     },
 
-    createComment: ({ commit }, data) => {
+    createComment: ({ commit }, {postId, description}) => {
       return new Promise((resolve, reject) => {
-        instance.post('/comment/' + data.postid, { content: data.content })
+        instance.post('/comment/' + postId, { description })
           .then((response) => {
+            alert(response.data.message)
             commit('setStatus', 'created')
             resolve(response.data)
           })
@@ -255,11 +259,11 @@ const store = createStore({
       })
     },
 
-    deleteComment: ({ commit }, data) => {
+    deleteComment: ({ commit }, commentId) => {
       return new Promise((resolve, reject) => {
-        instance.delete('/comment/' + data.postid + '/' + data.commentId)
+        instance.delete('/comment/' + postid + '/' + commentId)
           .then((response) => {
-            commit('commentInfos', response.data)
+            alert(response.data.message)
             resolve(response.data)
           })
           .catch((error) => {

@@ -72,20 +72,21 @@ exports.getOneUser = (req, res, next) => {
     where: { id: req.params.userId },
     attributes: ["id", "nom", "prenom", "email", "isAdmin"]
   })
-  .catch((error) => { res.status(500).json({ error: error }) })
   .then((user) => { 
     if (!user) {
       return res.status(404).json({ error :'Utilisateur introuvable'})
     } 
-    else res.status(200).json(user) })
+    else res.status(200).json(user) 
+  })
+  .catch((error) => { res.status(500).json({ error: error }) })
 }
 
 exports.getAllUser = (req, res, next) => {
   User.findAll({
     attributes: ["id", "nom", "prenom", "email", "isAdmin"]
   })
-  .catch((error) => { res.status(500).json({ error: error }) })
   .then((user) => { res.status(200).json(user) })
+  .catch((error) => { res.status(500).json({ error: error }) })
 }
 
 exports.modifyUser = (req, res, next) => {
