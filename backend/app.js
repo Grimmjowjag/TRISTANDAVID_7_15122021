@@ -25,17 +25,17 @@ app.use((req, res, next) => {
 const rateLimit = require("express-rate-limit")
 const { cp } = require('fs')
 
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 1000, // limit each IP to 100 requests per windowMs
-  message:"Trop de requêtes effectuées, veuillez réessayer dans 15 minutes"
-})
+// const limiter = rateLimit({
+//   windowMs: 15 * 60 * 1000, // 15 minutes
+//   max: 1000, // limit each IP to 100 requests per windowMs
+//   message:"Trop de requêtes effectuées, veuillez réessayer dans 15 minutes"
+// })
 
 // Appliqué à toutes les requêtes
 
 app.use(cors())
 
-app.use(limiter)
+// app.use(limiter)
 
 app.use(express.json())
 

@@ -52,6 +52,7 @@ exports.login = (req, res, next) => {
           // On renvoie un statut "200" pour une bonne connexion avec un userId et un token encodé/crypté (permet la connection)
           res.status(200).json({
             userId: user.id,
+            isAdmin: user.isAdmin,
             token: jwt.sign(
               {
                 userId: user.id,

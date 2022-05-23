@@ -30,6 +30,10 @@ export default {
   text-align: center;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 nav {
   color: white;
   font-weight: 800;

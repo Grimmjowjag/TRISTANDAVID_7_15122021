@@ -182,7 +182,7 @@ const store = createStore({
       })
     },
 
-    getAllPosts: ({ commit, dispatch }) => {
+    getAllPosts: ({ commit, dispatch, state }) => {
       return new Promise((resolve, reject) => {
         instance.get('/post')
           .then(async (response) => {
@@ -191,6 +191,15 @@ const store = createStore({
               post.createdAt = moment(post.createdAt).format(' Do MMMM YYYY, HH:mm:ss')
               const comments = await dispatch("getPostComment", post.id)
               post.comments = comments
+              const reactions = await dispatch("getPostReaction", post.id)
+              post.reactions = reactions
+              let liked = false
+              for(const reaction of reactions){
+                if(reaction.userId == state.user.userId){
+                  liked = true
+                }
+              }
+              post.liked = liked
               commit('addPost', post)
             }
             resolve(posts)
@@ -215,12 +224,41 @@ const store = createStore({
           })
       })
     },
-
-    postReaction: ({ commit }, postid) => {
+    
+    addReaction: ({ commit }, postId) => {
       return new Promise((resolve, reject) => {
-        instance.post('/post/' + postid + '/reaction')
+        instance.post('/reaction/', { postId })
+          .then((response) => {
+            alert(response.data.message)
+            commit('setStatus', 'created')
+            resolve(response)
+          })
+          .catch((error) => {
+            console.error(error),
+              reject(error)
+          })
+      })
+    },
+
+    getPostReaction: ({ commit }, postid) => {
+      return new Promise((resolve, reject) => {
+        instance.get('/reaction/' + postid)
           .then((response) => {
             commit('reactionInfos', response.data)
+            resolve(response.data)
+          })
+          .catch((error) => {
+            console.error(error),
+              reject(error)
+          })
+      })
+    },
+
+    deleteReaction: ({ commit }, postid) => {
+      return new Promise((resolve, reject) => {
+        instance.delete('/reaction/' + postid)
+          .then((response) => {
+            alert(response.data.message)
             resolve(response.data)
           })
           .catch((error) => {
@@ -261,7 +299,7 @@ const store = createStore({
 
     deleteComment: ({ commit }, commentId) => {
       return new Promise((resolve, reject) => {
-        instance.delete('/comment/' + postid + '/' + commentId)
+        instance.delete('/comment/' + commentId)
           .then((response) => {
             alert(response.data.message)
             resolve(response.data)
