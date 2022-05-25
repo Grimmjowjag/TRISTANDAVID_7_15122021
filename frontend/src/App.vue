@@ -2,9 +2,7 @@
   <div>
     <nav>
       <router-link to="/home">Posts</router-link> |
-      <router-link to="/profile">Profil</router-link> |
-      <router-link to="/allProfile">Utilisateurs</router-link>
-      
+      <router-link to="/profile">Profil</router-link>
     </nav>
     <router-view />
   </div>
@@ -43,11 +41,13 @@ nav {
 a {
   text-decoration: none;
   color: white;
+  margin: 0.2em;
 }
 
 .router-link-active {
   font-weight: bold;
   color: #091F43;
+  margin: 0.2em;
 }
 
 #logo {
@@ -60,7 +60,7 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding: 32px;
+  padding: 5px;
 }
 
 img {

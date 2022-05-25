@@ -1,54 +1,55 @@
 <template>
   <div class="card">
     <div class="card_Post">
-    <h1>{{ msg }}</h1>
-      <div>
-        <div class="card_createPost">
+      <h1>{{ msg }}</h1>
+      <div class="card_createPost">
+        <div class="form-row">
           <h2>Nouvelle publication</h2>
           <input v-model="title" type="text" class="form-row-input" placeholder="Titre"/>
-            <div class="form-row">
-              <textarea v-model="description" class="form-row" cols="30" rows="5"/>
-              <input class="postSource" name="source" type="file" accept="image/jpg, image/jpeg, image/png, image/webp, image/gif, video/x-msvideo, video/mp4, video/mpeg, video/ogg, video/mp2t, video/webm, video/3gpp , video/3gpp2">
-            </div>
-          <button @click="addPost()" id="Post">Ajouter une publication</button>
+          <textarea v-model="description" class="form-row" cols="30" rows="5"/>
+          <input class="postSource" name="source" type="file" accept="image/jpg, image/jpeg, image/png, image/webp, image/gif, video/x-msvideo, video/mp4, video/mpeg, video/ogg, video/mp2t, video/webm, video/3gpp , video/3gpp2">
         </div>
-
-        <div class="card_newPost" v-for="post in posts" :key="post.id">
-          <div class="title">
-            <h2>{{ post.title }}</h2>
-            <h3>{{ post.description }}</h3>
-            <button v-if="user.isAdmin || user.userId == post.userId" @click="delPost(post.id)">Supprimer 🗑️</button>
-          </div>
-
-          <div class="content">
-            <p>{{ post.content }}</p>
-            <div v-if="post.imageUrl">
-              <img v-if="['jpg','png','gif','webp'].includes(post.imageUrl.split('.').pop())" :src="post.imageUrl"/>
-            </div>
-            <p>{{ post.createdAt }}</p>
-
-            <div class="reaction">
-              <p>{{ post.reactions.length }}</p>
-              <button v-if="post.liked" @click="deleteReaction(post.id)"><i class="fa-solid fa-thumbs-up deleteReaction"></i></button>
-              <button v-else @click="addReaction(post.id)"><i class="fa-solid fa-thumbs-up addReaction"></i></button>
-            </div>
-
-            <h3>Commentaires</h3>
-            <div class="comments">
-              <input v-model="commentaire" type="text" class="form-row-input" placeholder="Commentaire"/>
-              <button @click="addCom(post.id)">Ajouter un commentaire</button>
-            </div>
-
-            <div class="Coms" v-for="comment in post.comments" :key="comment.id">
-              <h4>{{ comment.description }}</h4>
-              <button v-if="user.isAdmin || user.userId == comment.userId" @click="delCom(comment.id)">Supprimer com</button>
-            </div>
-          </div>
-        </div>
+        <button @click="addPost()" id="Post">Ajouter une publication</button>
       </div>
+
+      <div class="card_newPost" v-for="post in posts" :key="post.id">
+        <div class="title">
+          <h2>{{ post.title }}</h2>
+          <h3>{{ post.description }}</h3>
+          
+        </div>
+
+        <div class="content">
+          <p>{{ post.content }}</p>
+          <div v-if="post.imageUrl">
+            <img v-if="['jpg','png','gif','webp'].includes(post.imageUrl.split('.').pop())" :src="post.imageUrl"/>
+          </div>
+
+          <div class="postFooter">
+            <p>{{ post.createdAt }}</p>
+            <button v-if="user.isAdmin || user.userId == post.userId" @click="delPost(post.id)">🗑️</button>
+          </div>
+
+          <div class="reaction">
+            <p>{{ post.reactions.length }}</p>
+            <button v-if="post.liked" @click="deleteReaction(post.id)"><i class="fa-solid fa-thumbs-up deleteReaction"></i></button>
+            <button v-else @click="addReaction(post.id)"><i class="fa-solid fa-thumbs-up addReaction"></i></button>
+          </div>
+
+          <h3>Commentaires</h3>
+          <div class="comments">
+            <input v-model="commentaire" type="text" class="form-row-input" placeholder="Commentaire"/>
+            <button @click="addCom(post.id)">Ajouter un commentaire</button>
+          </div>
+
+          <div class="Coms" v-for="comment in post.comments" :key="comment.id">
+            <h4>{{ comment.description }}</h4>
+            <button v-if="user.isAdmin || user.userId == comment.userId" @click="delCom(comment.id)">🗑️</button>
+          </div>
+        </div>
+      </div> 
     </div>
   </div>
-  
 </template>
 
 <script>
@@ -171,7 +172,6 @@ h1 {
 }
 
 h2 {
-  background-color: #56eded;
   padding: 0.5em;
   border-radius: 0.5em;
 }
@@ -181,11 +181,10 @@ h3 {
 }
 
 h4 {
-  padding: 1em;
+  padding-top: 1em;
 }
 
 p {
-  font-size: 22px;
   margin: 1em;
 }
 
@@ -220,12 +219,12 @@ img, video {
 }
 
 .Coms {
-  background-color: #56eded;
+  background-color: #d7d7d7;
   border-radius: 1em;
 }
 
 .comments {
-  background-color: #56eded;
+  background-color: #d7d7d7;
   border-radius: 1em;
 }
 
@@ -247,24 +246,25 @@ img, video {
   max-width: 100%;
   width: 80%;
   margin: auto;
-  background: #d7d7d7;
   border-radius: 16px;
   padding: 32px;
 }
 
 .card_createPost {
   display: flex;
+  width: 90%;
   flex-direction: column;
   align-items: center;
   max-width: 100%;
   background: white;
-  border-radius: 16px;
-  padding: 20px;  
+  border-radius: 16px; 
   margin: 1em;
+  box-shadow: black 0px 0px 18px -4px;
 }
 
 .card_newPost {
   display: flex;
+  width: 90%;
   flex-wrap: wrap;
   justify-content: center;
   max-width: 100%;
@@ -272,6 +272,13 @@ img, video {
   border-radius: 16px;
   padding: 20px;
   margin: 1em;
+  box-shadow: black 0px 0px 18px -4px;
+}
+
+.postFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .form-row {
@@ -283,12 +290,16 @@ img, video {
 }
 
 .form-row-input {
-  width: 35%;
+  width: 38%;
   font-weight: bold;
   border-radius: 1em;
   border: none;
   margin: 1em;
   padding: 1em;
+}
+
+.postSource {
+  width: 37%;
 }
 
 input {
@@ -307,4 +318,74 @@ button {
   font-size: 1em;
   cursor: pointer;
 }
+
+/* Responsive */
+@media screen and (max-width: 1410px) {
+  .card {
+    width: 100%;
+  }
+
+  .card_Post {
+    width: 100%;
+    height: auto;
+    align-items: center;
+  }
+
+  h1 {
+    width: 40%;
+  }
+
+  .form-row {
+    width: 60%;
+  }
+}
+
+/* Responsive phone */
+@media screen and (max-width: 640px) {
+  nav {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .card {
+    width: 100%;
+  }
+
+  .card_Post {
+    width: 100%;
+    height: auto;
+    align-items: center;
+    padding: 0;
+  }
+
+  .title {
+    flex-direction: column;
+  }
+
+  h1 {
+    width: 90%;
+  }
+
+  h2 {
+    padding: 0;
+  }
+
+  .form-row {
+    width: 90%;
+  }
+
+  .form-row-input {
+    width: 85%;
+  }
+
+  .postSource {
+    width: 82%;
+  }
+
+  button {
+    padding: 0.5em;
+  }
+}
+
 </style>

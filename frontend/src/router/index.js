@@ -55,22 +55,6 @@ const routes = [
     }
   },
 
-  {
-    path: '/allProfile',
-    name: 'Utilisateurs',
-    component: () => import(/* webpackChunkName: "login" */ '../views/AllProfileView.vue'),
-    beforeEnter: (to, from, next) => {
-      if(store.state.user.userId.isAdmin == -1) {
-        next("/")
-      } else {
-        next()
-      }
-    },
-    meta: {
-      title: 'Utilisateurs'
-    }
-  },
-
   // NotFound va gérer les cas où une route n'existe pas
   {
     path: '/:pathMatch(.*)',
