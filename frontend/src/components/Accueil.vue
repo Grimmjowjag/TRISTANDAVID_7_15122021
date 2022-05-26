@@ -15,7 +15,7 @@
       <div class="card_newPost" v-for="post in posts" :key="post.id">
         <div class="title">
           <h2>{{ post.title }}</h2>
-          <h3>{{ post.description }}</h3>
+          <h4>{{ post.description }}</h4>
           
         </div>
 
@@ -182,6 +182,7 @@ h3 {
 
 h4 {
   padding-top: 1em;
+  margin: 1em;
 }
 
 p {
@@ -201,7 +202,6 @@ img, video {
   width: 100%;
   display: inline-flex;
   justify-content: space-between;
-  align-items: center;
 }
 
 .reaction {
@@ -211,11 +211,11 @@ img, video {
 }
 
 .addReaction {
-  color: red;
+  color: white;
 }
 
 .deleteReaction {
-  color: yellow;
+  color: rgb(27, 219, 27);
 }
 
 .Coms {
@@ -247,7 +247,6 @@ img, video {
   width: 80%;
   margin: auto;
   border-radius: 16px;
-  padding: 32px;
 }
 
 .card_createPost {
@@ -279,6 +278,15 @@ img, video {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.postFooter > button {
+  transition: 0.4s background-color;
+}
+
+.postFooter > button:hover {
+  cursor: pointer;
+  background: #D1515A;
 }
 
 .form-row {
@@ -320,6 +328,7 @@ button {
 }
 
 /* Responsive */
+
 @media screen and (max-width: 1410px) {
   .card {
     width: 100%;
@@ -340,7 +349,28 @@ button {
   }
 }
 
+/* Responsive tablet */
+
+@media screen and (max-width: 1024px) {
+  h1 {
+    width: 60%;
+  }
+
+  .form-row {
+    width: 80%;
+  }
+
+  .form-row-input {
+    width: 50%;
+  }
+
+  .postSource {
+    width: 46%;
+  }
+}
+
 /* Responsive phone */
+
 @media screen and (max-width: 640px) {
   nav {
     width: 100%;

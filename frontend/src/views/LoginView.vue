@@ -113,6 +113,10 @@ export default {
 
 <style scoped>
 
+.card {
+  box-shadow: black 0px 0px 18px -4px;
+}
+
 .form-row {
   display: flex;
   margin: 16px 0px;
@@ -136,4 +140,9 @@ export default {
   color:#aaaaaa;
 }
 
+@media screen and (max-width: 640px) {
+  .card {
+    width: 100%;
+  }
+}
 </style>

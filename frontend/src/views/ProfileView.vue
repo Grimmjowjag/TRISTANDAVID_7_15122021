@@ -6,7 +6,6 @@
     <p class="form-row">Email : <span class="card__action">{{ userInfos.email }}</span></p>
     <div class="form-row">
       <button @click="supressProfile(user.userId)" class="suppressbutton">Supprimer le compte</button>
-
       <button @click="logout()" class="button">Déconnexion</button>
     </div>
   </div>
@@ -65,6 +64,7 @@ export default {
   border-radius: 16px;
   padding: 32px;
   margin-top: 1em;
+  box-shadow: black 0px 0px 18px -4px;
 }
 
 .button {
@@ -79,6 +79,11 @@ export default {
   transition: 0.4s background-color;
 }
 
+.button:hover {
+  cursor: pointer;
+  background: #D1515A;
+}
+
 .form-row {
     margin: 15px;
     font-weight: bold;
@@ -86,5 +91,35 @@ export default {
 
 .card__action {
   color: #091F43;
+}
+
+@media screen and (max-width: 1024px) {
+  .card {
+    width: 600px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .card {
+    width: 100%;
+  }
+
+  .form-row {
+    margin: 1em;
+  }
+
+  .suppressbutton {
+    width: 55%;
+  }
+
+  .button {
+    width: 85%;
+    cursor: pointer;
+    transition: 0.4s background-color;
+  }
+
+  .button:hover {
+    background: #D1515A;
+  }
 }
 </style>
