@@ -2,15 +2,15 @@
 
 Groupomania P7
 
-Back
+# Back
 
-Requis
+# Requis
 
 NodeJs: https://nodejs.org/fr/download/
 
 MySQL Server: https://dev.mysql.com/downloads/mysql/
 
-Required package
+# Package requis
 
 express: npm install express
 
@@ -46,7 +46,7 @@ sequelize db:create
 
 puis sequelize db:migrate
 
-Required file
+# Fichiers requis
 
 .env avec
 
@@ -58,7 +58,7 @@ TOKEN_SECRET= clé secrète du token
 
 Vous pouvez lancer le serveur backend avec: nodemon server
 
-Front
+# Front
 
 Framework : VueJs
 
@@ -72,14 +72,14 @@ axios: npm install axios
 
 Pour lancer le serveur front-end: npm run serve
 
-Compiles and minifies for production
+# Compiles and minifies for production
 
 npm run build
 
-Lints and fixes files
+# Lints and fixes files
 
 npm run lint
 
-Customize configuration
+# Customize configuration
 
 See [Configuration Reference.](https://cli.vuejs.org/config/)
