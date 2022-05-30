@@ -9,14 +9,14 @@
           <textarea v-model="description" class="form-row" cols="30" rows="5"/>
           <input class="postSource" name="source" type="file" accept="image/jpg, image/jpeg, image/png, image/webp, image/gif, video/x-msvideo, video/mp4, video/mpeg, video/ogg, video/mp2t, video/webm, video/3gpp , video/3gpp2">
         </div>
+        <!-- @ = v-on  -->
         <button @click="addPost()" id="Post">Ajouter une publication</button>
       </div>
 
       <div class="card_newPost" v-for="post in posts" :key="post.id">
         <div class="title">
           <h2>{{ post.title }}</h2>
-          <h4>{{ post.description }}</h4>
-          
+          <h4>{{ post.description }}</h4>  
         </div>
 
         <div class="content">
@@ -24,6 +24,7 @@
           <div v-if="post.imageUrl">
             <img v-if="['jpg','png','gif','webp'].includes(post.imageUrl.split('.').pop())" :src="post.imageUrl"/>
           </div>
+          
 
           <div class="postFooter">
             <p>{{ post.createdAt }}</p>
@@ -32,8 +33,8 @@
 
           <div class="reaction">
             <p>{{ post.reactions.length }}</p>
-            <button v-if="post.liked" @click="deleteReaction(post.id)"><i class="fa-solid fa-thumbs-up deleteReaction"></i></button>
-            <button v-else @click="addReaction(post.id)"><i class="fa-solid fa-thumbs-up addReaction"></i></button>
+            <button v-if="post.liked" @click="deleteReac(post.id)"><i class="fa-solid fa-thumbs-up deleteReac"></i></button>
+            <button v-else @click="addReac(post.id)"><i class="fa-solid fa-thumbs-up addReac"></i></button>
           </div>
 
           <h3>Commentaires</h3>
@@ -133,9 +134,9 @@ export default {
       this.posts = res
     },
 
-    async addReaction(postId) {
+    async addReac(postId) {
       try {
-        await this.addReaction( postId )
+        await this.$store.dispatch("addReaction", postId)
         const res = await this.getAllPosts()
         this.posts = res
       } catch (error) {
@@ -143,7 +144,7 @@ export default {
       }
     },
 
-    async deleteReaction(postId) {
+    async deleteReac(postId) {
       try {
       await this.$store.dispatch("deleteReaction", postId)
       const res = await this.getAllPosts()
@@ -181,7 +182,7 @@ h3 {
 }
 
 h4 {
-  padding-top: 1em;
+  padding: 1em;
   margin: 1em;
 }
 
@@ -210,11 +211,11 @@ img, video {
   align-items: center;
 }
 
-.addReaction {
+.addReac {
   color: white;
 }
 
-.deleteReaction {
+.deleteReac {
   color: rgb(27, 219, 27);
 }
 

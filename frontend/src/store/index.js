@@ -115,7 +115,6 @@ const store = createStore({
       return new Promise((resolve, reject) => {
         instance.post('/auth/signup', userInfos)
           .then(function (response) {
-            commit('setStatus', 'created')
             resolve(response.data.message)
           })
           .catch(function (error) {
@@ -172,7 +171,6 @@ const store = createStore({
         instance.post('/post', data)
           .then((response) => {
             alert(response.data.message)
-            commit('setStatus', 'created')
             resolve(response.data)
           })
           .catch((error) => {
@@ -227,10 +225,10 @@ const store = createStore({
     
     addReaction: ({ commit }, postId) => {
       return new Promise((resolve, reject) => {
+        console.log("testAdd");
         instance.post('/reaction/', { postId })
           .then((response) => {
             alert(response.data.message)
-            commit('setStatus', 'created')
             resolve(response)
           })
           .catch((error) => {
@@ -256,6 +254,7 @@ const store = createStore({
 
     deleteReaction: ({ commit }, postid) => {
       return new Promise((resolve, reject) => {
+        console.log("testDelete");
         instance.delete('/reaction/' + postid)
           .then((response) => {
             alert(response.data.message)
@@ -287,7 +286,6 @@ const store = createStore({
         instance.post('/comment/' + postId, { description })
           .then((response) => {
             alert(response.data.message)
-            commit('setStatus', 'created')
             resolve(response.data)
           })
           .catch((error) => {
