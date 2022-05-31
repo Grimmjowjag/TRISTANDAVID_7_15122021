@@ -225,7 +225,6 @@ const store = createStore({
     
     addReaction: ({ commit }, postId) => {
       return new Promise((resolve, reject) => {
-        console.log("testAdd");
         instance.post('/reaction/', { postId })
           .then((response) => {
             alert(response.data.message)
@@ -254,7 +253,6 @@ const store = createStore({
 
     deleteReaction: ({ commit }, postid) => {
       return new Promise((resolve, reject) => {
-        console.log("testDelete");
         instance.delete('/reaction/' + postid)
           .then((response) => {
             alert(response.data.message)

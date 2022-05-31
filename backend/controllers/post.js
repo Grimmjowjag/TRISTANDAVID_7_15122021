@@ -1,10 +1,10 @@
 "use strict"
 
 const { Post } = require('../models')
+// Fs va servir à créer, lire, écrire, copier, supprimer des fichiers etc...
 const fs = require('fs')
 
 exports.createPost = (req, res, next) => {
-  console.log(req.body, req.userAuth)
   Post.create({
     title: req.body.title,
     description: req.body.description,
@@ -30,6 +30,7 @@ exports.getOnePost = (req, res, next) => {
 }
 
 exports.getAllPost = (req, res, next) => {
+  // Ici moment est utilisé pour afficher les posts du plus récent au plus ancien avec [[ 'id', 'DESC']]
   Post.findAll({ order: [[ 'id', 'DESC' ]] })
     .then((post) => { res.status(200).json(post) })
     .catch((error) => { res.status(500).json({ error: error }) })

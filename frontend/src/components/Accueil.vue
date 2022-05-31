@@ -164,7 +164,7 @@ export default {
 
 h1 {
   background-color: #205ec3;
-  width: 50%;
+  width: 60%;
   color: white;
   font-weight: bold;
   padding: 1em;
@@ -203,6 +203,7 @@ img, video {
   width: 100%;
   display: inline-flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .reaction {
