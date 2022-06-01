@@ -59,7 +59,9 @@ const store = createStore({
 
   },
 
-  // Les mutations doivent être synchrones. Elles vont prendre les paramètres en compte et les placer dans le state
+  // Les mutations doivent être synchrones. Elles vont prendre les paramètres en compte et les placer dans le state, elles sont appelées avec "store.commit"
+  // La seule façon de réellement changer l'état du store est de commettre une mutation. Les mutations Vuex sont très similaires aux événements: chaque mutation a un type et un gestionnaire. La fonction de gestionnaire est l'endroit où nous effectuons les modifications d'état réelles, et elle recevra l'état comme premier argument.
+  
   mutations: {
 
     setStatus: function (state, status) {
@@ -157,6 +159,7 @@ const store = createStore({
         instance.delete('/auth/' + id)
           .then((response) => {
             commit('setStatus', 'deleted')
+            alert(response.data.message)
             resolve(response)
           })
           .catch((error) => {
