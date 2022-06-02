@@ -47,7 +47,7 @@ exports.login = (req, res, next) => {
         // On vérifie si la comparaison est valable ou non -> bon/mauvais mdp
         .then(valid => {
           if (!valid) {
-            return res.status(401).json({ error: 'Mot de passe incorrect !' + valid })
+            return res.status(401).json({ error: 'Mot de passe incorrect !' })
           }
           // On renvoie un statut "200" pour une bonne connexion avec un userId et un token encodé/crypté (permet la connection)
           res.status(200).json({

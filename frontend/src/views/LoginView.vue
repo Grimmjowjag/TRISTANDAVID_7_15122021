@@ -16,12 +16,10 @@
     <div class="form-row">
       <input v-model="password" class="form-row__input" type="password" placeholder="Mot de passe"/>
     </div>
-    <div class="form-row" v-if="mode == 'login' && status == 'error_login'">
-      Adresse mail et/ou mot de passe invalide
+    <div class="form-row" v-if="status == 'error_login' || 'error_create'">
+      {{ error }}
     </div>
-    <div class="form-row" v-if="mode == 'create' && status == 'error_create'">
-      Adresse mail déjà utilisée
-    </div>
+    
     <div class="form-row">
       <button @click="login()" class="button" :class="{'button--disabled' : !validatedFields}" v-if="mode == 'login'">
         <span v-if="status == 'loading'">Connexion en cours...</span>
@@ -49,6 +47,7 @@ export default {
       prenom: '',
       nom: '',
       password: '',
+      error: ''
     }
   },
  
@@ -73,9 +72,11 @@ export default {
   methods: {
     switchToCreateAccount: function () {
         this.mode='create'
+        this.error =''
     },
     switchToLogin: function () {
         this.mode='login'
+        this.error =''
     },
 
     // Pour appeler une action, on utilise store.dispatch (store.commit pour appeler une mutation)
@@ -89,7 +90,7 @@ export default {
       }).then(function () {
         self.$router.push('/home')
       }, function (error) {
-        console.log(error)
+        self.error = error.response.data.error
       })
     },
 
@@ -103,7 +104,7 @@ export default {
       }).then(function () {
         self.login()
       }, function (error) {
-        console.log(error)
+        self.error = error.response.data.error.errors ? error.response.data.error.errors[0].message: error.response.data.error
       })
     },
   }
