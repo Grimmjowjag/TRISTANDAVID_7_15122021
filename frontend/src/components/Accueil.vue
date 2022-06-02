@@ -22,10 +22,10 @@
         <div class="content">
           <p>{{ post.content }}</p>
           <div v-if="post.imageUrl">
+            <!-- .pop supprime le dernier élément du tableau et le renvoie. Ici on conserve la dernière image renvoyée par .pop -->
             <img v-if="['jpg','png','gif','webp'].includes(post.imageUrl.split('.').pop())" :src="post.imageUrl"/>
           </div>
           
-
           <div class="postFooter">
             <p>{{ post.createdAt }}</p>
             <button v-if="user.isAdmin || user.userId == post.userId" @click="delPost(post.id)">🗑️</button>

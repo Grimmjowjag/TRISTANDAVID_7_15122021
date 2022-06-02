@@ -4,12 +4,11 @@ const validator = require('validator')
 
 module.exports = (req, res, next) => {
   try {
-    // Vérification que la requête correspond bien à celle du token -> password valide ou non
-    // Si validator est false
     if (validator.isEmpty(req.body.nom) || validator.isEmpty(req.body.prenom)) {
       console.log('Veuillez renseigner un nom et un prénom')
       return res.status(400).json({ error: 'Veuillez renseigner un nom et un prénom' })
     }
+    // Vérification que la requête correspond bien à celle du token -> password valide ou non
     if (!validator.isStrongPassword(req.body.password)) {
       console.log('Veuillez utiliser un mot de passe au bon format')
       return res.status(400).json({ error: 'Veuillez utiliser une majuscule, une minuscule, un chiffre et un caractère spécial' })

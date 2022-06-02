@@ -4,6 +4,8 @@ const { DataTypes } = Sequelize
 
 const User = sequelize.define('user', {
 
+    // Par défaut, null est une valeur autorisée pour chaque colonne d'un modèle. 
+    // Cela peut être désactivé en définissant l'option allowNull: false pour une colonne
     nom: {
         type: DataTypes.STRING,
         allowNull: false,

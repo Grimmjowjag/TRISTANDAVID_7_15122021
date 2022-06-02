@@ -32,6 +32,7 @@ const limiter = rateLimit({
 })
 
 // Appliqué à toutes les requêtes
+// On lie le middleware niveau application à une instance de l’objet app object en utilisant la fonction app.use()
 
 app.use(cors())
 
